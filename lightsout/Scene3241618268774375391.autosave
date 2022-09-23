@@ -1,0 +1,7 @@
+MainGame mainGame;
+
+class Scene{
+  public void drawScene(){
+    mainGame.drawPanel();
+  }
+}
