@@ -9,6 +9,6 @@ class Scene{
   }
   
   public void operate(){
-    
+    mainGame.selectPanel();
   }
 }
