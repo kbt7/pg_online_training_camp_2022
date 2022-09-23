@@ -10,5 +10,8 @@ class Scene{
   
   public void operate(){
     mainGame.selectPanel();
+    if(mainGame.clearJudge()){
+      println("clear");//ゲームクリア画面に移行//
+    }
   }
 }
