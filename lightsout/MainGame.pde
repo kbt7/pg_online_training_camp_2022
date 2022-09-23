@@ -22,8 +22,8 @@ class MainGame{
   }
   public void selectPanel(){
     if (mousePressed){
-      if(mouseX<500&&mouseX>=0&&mouseY<500&&mouseY>=0){
-          panel[mouseX/100][mouseY/100] = 1;
+      if(mouseX<w*panelSize&&mouseX>=0&&mouseY<h*panelSize&&mouseY>=0){
+          panel[mouseX/panelSize][mouseY/panelSize] = 1;
       }
     }
   }
