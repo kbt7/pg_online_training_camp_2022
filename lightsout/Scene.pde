@@ -7,4 +7,8 @@ class Scene{
   public void drawScene(){
     mainGame.drawPanel();
   }
+  
+  public void operate(){
+    
+  }
 }

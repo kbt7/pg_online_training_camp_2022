@@ -6,5 +6,6 @@ void setup(){
 }
 
 void draw() {
+  scene.operate();
   scene.drawScene();
 }
