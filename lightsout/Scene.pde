@@ -1,6 +1,7 @@
 MainGame mainGame;
 
 class Scene{
+<<<<<<< HEAD
   Select select;
   Scene(){
     mainGame = new MainGame();
@@ -73,4 +74,20 @@ protected class Select{
     textSize(textSize);
     text(str, x, y);
   }
+=======
+	
+	Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
+	Audio bgm = new Audio("testBGM.mp3");
+	
+	Scene() {
+		mainGame = new MainGame();
+	}
+	public void drawScene() {
+		mainGame.drawPanel();
+	}
+	
+	public void operate() {
+		
+	}
+>>>>>>> okayu
 }
