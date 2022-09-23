@@ -1,0 +1,5 @@
+MainGame mainGame;
+
+class Scene{
+
+}
