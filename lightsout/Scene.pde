@@ -13,6 +13,9 @@ class Scene{
   private GameMode gameMode;
   
   private Select title, gamePlay, select, result, gameEnd;
+  private Stage[] stage;
+  
+  private int pickStage;
   
   Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
   Audio bgm = new Audio("testBGM.mp3");
@@ -29,6 +32,17 @@ class Scene{
     select.setGameMode(GameMode.SELECT);
     result.setGameMode(GameMode.RESULT);
     gameEnd.setGameMode(GameMode.END);
+    
+    pickStage = 0;
+    
+    load = new TextLoad();
+    stage = new Stage[load.fileNames.length];
+    for(int i = 0; i < load.fileNames.length; i++){
+      stage[i] = new Stage(i * 120, 400, load.fileNames[i]);
+      if(i == pickStage){
+        stage[i].select();
+      }
+    }
     
     gameMode = GameMode.TITLE;
   }
@@ -50,6 +64,9 @@ class Scene{
     fill(0);
     text("map selecting", 50, 50);
     gamePlay.draw();
+    for(int i = 0; i < load.fileNames.length; i++){
+      stage[i].draw();
+    }
   }
   
   private void resultDraw(){
@@ -75,9 +92,15 @@ class Scene{
       case SELECT:
         if(mousePressed){
           if(gamePlay.onMouse()){
-            load = new TextLoad();
-            mainGame = new MainGame(load.mapLoad(0));//本来はゲームプレイ用のシーンでインスタンス生成
+            mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
             gameMode = gamePlay.getGameMode();
+          }
+          for(int i = 0; i < load.fileNames.length; i++) {
+            if(stage[i].onMouse()){
+              stage[pickStage].unselect();
+              pickStage = i;
+              stage[i].select();
+            }
           }
         }
         break;
@@ -96,6 +119,8 @@ class Scene{
             gameMode = gameEnd.getGameMode();
           }
         }
+        break;
+      default:
         break;
     }
   }
@@ -116,7 +141,7 @@ class Scene{
         resultDraw();
         break;
       case END:
-        text("end I want to close game", width / 2, height / 2);
+        text("end. I want to close game.", width / 2, height / 2);
         break;
     }
   }
@@ -178,6 +203,81 @@ private class Select{
       fill(panelColor, LowAlpha);
     }
     rect(x, y, PanelWidth, PanelHeight);
+    
+    fill(textColor);
+    textAlign(CENTER);
+    textSize(textSize);
+    text(str, x + PanelWidth / 2, y + PanelHeight / 2);
+  }
+}
+
+private class Stage{
+  final int PanelWidth = 100;
+  final int PanelHeight = 100;
+  final color DefaultColor = color(100, 100, 100);
+  final color EdgeColor = color(255, 100, 100);
+  final int HighAlpha = 255;
+  final int LowAlpha = 150;
+  final color textColor = color(100, 0, 0);
+  final int textSize = 20;
+  
+  int x;
+  int y;
+  String str;
+  color panelColor;
+  boolean select;
+  
+  Stage(){}
+  Stage(int x, int y){
+    this.x = x;
+    this.y = y;
+    this.panelColor = DefaultColor;
+    this.select = false;
+  }
+  
+  Stage(int x, int y, String str){
+    this(x, y);
+    this.str = str;
+  }
+  
+  Stage(int x, int y, String str, color c){
+    this(x, y, str);
+    this.panelColor = c;
+  }
+  
+  public void select(){
+    this.select = true;
+  }
+  
+  public void unselect(){
+    this.select = false;
+  }
+  
+  public boolean onMouse(){
+    if(x <= mouseX && mouseX <= x + PanelWidth &&
+        y <= mouseY && mouseY <= y + PanelHeight){
+      return true;      
+    }
+    return false;
+  }
+  
+  public void draw(){
+    if(this.onMouse()){
+      fill(panelColor, HighAlpha);
+    }
+    else{
+      fill(panelColor, LowAlpha);
+    }
+    rect(x, y, PanelWidth, PanelHeight);
+    
+    strokeWeight(4);
+    stroke(EdgeColor);
+    fill(0, 0, 0, 0);
+    if(select){
+      rect(x - 2, y - 2, PanelWidth + 2, PanelHeight + 2);
+    }
+    strokeWeight(1);
+    stroke(0);
     
     fill(textColor);
     textAlign(CENTER);
