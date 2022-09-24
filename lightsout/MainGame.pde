@@ -11,6 +11,12 @@ class MainGame{
     panel = new int[w][h];
   }
   
+  MainGame(int[][] map){
+    h = map[0].length;
+    w = map.length;
+    panel = map;
+  }
+  
   public void drawPanel(){
     for(int i = 0 ; i < w ; i ++ ){
       for(int j = 0 ; j < h ; j ++ ){

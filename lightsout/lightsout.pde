@@ -1,11 +1,8 @@
 Scene scene;
-TextLoad load;
 
 void setup() {
 	size(800, 600);
 	scene = new Scene();
-  load = new TextLoad();
-  load.mapLoad(2);
 }
 
 void draw() {

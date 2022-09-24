@@ -1,4 +1,5 @@
 MainGame mainGame;
+TextLoad load;
 
 class Scene{
   
@@ -8,7 +9,8 @@ class Scene{
   Audio bgm = new Audio("testBGM.mp3");
   
   Scene(){
-    mainGame = new MainGame();
+    load = new TextLoad();
+    mainGame = new MainGame(load.mapLoad(0));//本来はゲームプレイ用のシーンでインスタンス生成
     select = new Select(0, 0);
   }
   

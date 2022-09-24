@@ -6,7 +6,7 @@ class TextLoad{
   }
   
   public int[][] mapLoad(int n){
-    if (fileNames.length <= n) return null;
+    if (fileNames.length <= n) return new int[5][5];
     String[] lines = loadStrings("maps/" + fileNames[n]);
     int[] size = int(split(lines[0]," "));
     int[][] map = new int[size[0]][size[1]];
