@@ -20,7 +20,7 @@ class MainGame{
         else if(panel[i][j] == 1 ){
           fill(255);
         }
-        rect(i*panelSize,j*panelSize,panelSize,panelSize);
+        rect(i*panelSize + width/2 - w/2.0*panelSize,j*panelSize + height/2 - h/2.0 * panelSize,panelSize,panelSize);
       }
     }
   }
@@ -48,10 +48,10 @@ class MainGame{
   }
   
   public void selectPanel(){
-    if(mouseX<h*panelSize&&mouseX>=0&&mouseY<w*panelSize&&mouseY>=0){
+    if(mouseX<h*panelSize+ width/2 - w/2.0*panelSize&&mouseX>=width/2 - w/2.0*panelSize&&mouseY<h*panelSize+ height/2 - h/2.0 * panelSize&&mouseY>=height/2 - h/2.0 * panelSize){
       if (mousePressed && !isPressed){
-        int selectX = mouseX/panelSize;
-        int selectY = mouseY/panelSize;
+        int selectX = (mouseX - width/2 + (int)(w/2.0*panelSize))/panelSize;
+        int selectY = (mouseY - height/2 + (int)(h/2.0*panelSize))/panelSize;
         turnPanel(selectX, selectY);
         turnPanel(selectX+1, selectY);
         turnPanel(selectX-1, selectY);
