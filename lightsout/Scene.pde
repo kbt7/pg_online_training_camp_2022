@@ -32,6 +32,7 @@ class Scene{
   
   public void drawScene(){
     mainGame.drawPanel();
+    mainGame.goalPanel();
   }
   
   private void titleDraw(){

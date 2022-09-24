@@ -3,7 +3,7 @@ class MainGame{
   int h,w,panelSize = 100;
   boolean isPressed = false;
   
-  int[][] samplepanel  = {{0,0,0,0,0},{0,1,1,0,0},{0,0,1,0,0},{0,0,1,1,0},{0,0,0,0,0}};
+  int[][] samplepanel  = {{1,1,0},{0,1,0},{0,1,1}};          ////////////////////別ステージのサンプルパネル
 
   MainGame(){
     h = 5;
@@ -27,6 +27,20 @@ class MainGame{
           fill(255);
         }
         rect(i*panelSize + width/2 - w/2.0*panelSize,j*panelSize + height/2 - h/2.0 * panelSize,panelSize,panelSize);
+      }
+    }
+  }
+  
+    public void goalPanel(){                        ///////////////////////// 目標の形の描画
+    for(int i = 0 ; i < h ; i ++ ){
+      for(int j = 0 ; j < w ; j ++ ){
+        if(samplepanel[j][i] == 0 ){
+          fill(128);
+        }
+        else if(samplepanel[j][i] == 1 ){
+          fill(255);
+        }
+        rect(i*panelSize/2,j*panelSize/2 + height/2 - h/2.0 * panelSize/2,panelSize/2,panelSize/2);
       }
     }
   }
