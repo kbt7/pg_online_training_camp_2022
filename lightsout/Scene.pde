@@ -4,28 +4,31 @@ TextLoad load;
 private enum GameMode{
   TITLE,
   PLAY,
-  RESULT
+  SELECT,
+  RESULT,
+  END
 };
 
 class Scene{
   private GameMode gameMode;
   
-  private Select title, gamePlay, result;
+  private Select title, gamePlay, select, result, gameEnd;
   
   Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
   Audio bgm = new Audio("testBGM.mp3");
   
   Scene(){
-    load = new TextLoad();
-    mainGame = new MainGame(load.mapLoad(0));//本来はゲームプレイ用のシーンでインスタンス生成
-    
     title = new Select(0, 100, "title");
     gamePlay = new Select(0, 200, "game start");
+    select = new Select(0, 250, "map select");
     result = new Select(0, 300, "result");
+    gameEnd = new Select(0, 500, "finish");
     
     title.setGameMode(GameMode.TITLE);
     gamePlay.setGameMode(GameMode.PLAY);
+    select.setGameMode(GameMode.SELECT);
     result.setGameMode(GameMode.RESULT);
+    gameEnd.setGameMode(GameMode.END);
     
     gameMode = GameMode.TITLE;
   }
@@ -39,9 +42,15 @@ class Scene{
     textAlign(TOP, LEFT);
     fill(0);
     text("Title GAMEN", 50, 50);
-    title.draw();
+    select.draw();
+    gameEnd.draw();
+  }
+  
+  private void selectDraw(){
+    textAlign(TOP, LEFT);
+    fill(0);
+    text("map selecting", 50, 50);
     gamePlay.draw();
-    result.draw();
   }
   
   private void resultDraw(){
@@ -49,22 +58,27 @@ class Scene{
     fill(0);
     text("Game END", 50, 50);
     title.draw();
-    gamePlay.draw();
-    result.draw();
+    gameEnd.draw();
   }
   
   public void operate(){
     switch(gameMode){
       case TITLE:
         if(mousePressed){
-          if(title.onMouse()){
-            gameMode = title.getGameMode();
+          if(select.onMouse()){
+            gameMode = select.getGameMode();
           }
-          else if(gamePlay.onMouse()){
+          else if(gameEnd.onMouse()){
+            gameMode = gameEnd.getGameMode();
+          }
+        }
+        break;
+      case SELECT:
+        if(mousePressed){
+          if(gamePlay.onMouse()){
+            load = new TextLoad();
+            mainGame = new MainGame(load.mapLoad(0));//本来はゲームプレイ用のシーンでインスタンス生成
             gameMode = gamePlay.getGameMode();
-          }
-          else if(result.onMouse()){
-            gameMode = result.getGameMode();
           }
         }
         break;
@@ -79,11 +93,8 @@ class Scene{
           if(title.onMouse()){
             gameMode = title.getGameMode();
           }
-          else if(gamePlay.onMouse()){
-            gameMode = gamePlay.getGameMode();
-          }
-          else if(result.onMouse()){
-            gameMode = result.getGameMode();
+          else if(gameEnd.onMouse()){
+            gameMode = gameEnd.getGameMode();
           }
         }
         break;
@@ -95,12 +106,18 @@ class Scene{
       case TITLE:
         titleDraw();
         break;
+      case SELECT:
+        selectDraw();
+        break;
       case PLAY:
         operate();
         drawScene();
         break;
       case RESULT:
         resultDraw();
+        break;
+      case END:
+        text("end I want to close game", width / 2, height / 2);
         break;
     }
   }
