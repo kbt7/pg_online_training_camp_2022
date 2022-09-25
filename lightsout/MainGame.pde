@@ -1,7 +1,7 @@
 class MainGame{
   int[][] panel;
   int h,w,panelSize = 100;
-  boolean isPressed = false;
+  boolean isPressed;
   
   int[][] samplepanel  = {{1,1,0},{0,1,0},{0,1,1}};          ////////////////////別ステージのサンプルパネル
 
@@ -9,12 +9,14 @@ class MainGame{
     h = 5;
     w = 5;
     panel = new int[w][h];
+    isPressed = true;
   }
   
   MainGame(int[][] map){
     h = map[0].length;
     w = map.length;
     panel = map;
+    isPressed = true;
   }
   
   public void drawPanel(){
