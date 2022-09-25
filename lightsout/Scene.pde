@@ -49,7 +49,7 @@ class Scene{
   
   public void drawScene(){
     mainGame.drawPanel();
-    mainGame.goalPanel();
+    //mainGame.goalPanel();
   }
   
   private void titleDraw(){
