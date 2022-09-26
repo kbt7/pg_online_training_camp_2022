@@ -8,6 +8,10 @@ class MainGame{
   boolean isPressed;
   int count  = 0;
   
+  public int getCount(){
+    return count;
+  }
+  
   int[][] samplepanel  = {{1,1,0},{0,1,0},{0,1,1}};          ////////////////////別ステージのサンプルパネル
 
   MainGame(){

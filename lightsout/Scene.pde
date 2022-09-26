@@ -73,9 +73,13 @@ class Scene{
   }
   
   private void resultDraw(){
+    
     textAlign(TOP, LEFT);
     fill(0);
     text("Game END", 50, 50);
+    textAlign(TOP,RIGHT);
+    fill(0);
+    text("手数"+mainGame.getCount(), 200, 50);
 
     title.draw();
     gameEnd.draw();

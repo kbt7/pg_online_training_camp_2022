@@ -3,6 +3,8 @@ Scene scene;
 void setup() {
 	size(800, 600);
 	scene = new Scene();
+  PFont font = createFont("MS Gothic",50);
+  textFont (font);
 }
 
 void draw() {
