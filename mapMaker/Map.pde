@@ -25,6 +25,7 @@ class Map{
   public int getWidth(){ return w; }
   public int getHeight(){ return h; }
   public int[][] getMap(){ return mp; }
+  public int[][] getGoal() { return goal; }
   
   public void drawPanel() {
     for (int i = 0; i < h; i++) {

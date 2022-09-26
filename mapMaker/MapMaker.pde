@@ -51,6 +51,7 @@ void draw() {
     map.drawGoalPanel();
     if (keyPressed && key == ENTER && !isPressed) {
       mapWrite.save(map.getMap(), map.getWidth(), map.getHeight());
+      mapWrite.saveAns(map.getGoal(), map.getWidth(), map.getHeight());
       isPressed = true;
     } else if (!keyPressed && isPressed) {
       isPressed = false;
