@@ -1,6 +1,7 @@
 class Map{
   private int w, h;
   private int[][] mp;
+  private int[][] goal;
   private final int panelSize = 100;
   private boolean isPressed;
   Map() {
@@ -13,6 +14,7 @@ class Map{
     for (int i = 0; i < w; i++) {
       for (int j = 0; j < h; j++) {
         mp[i][j] = 1;
+        goal[i][j] = 1;
       }
     }
     isPressed = true;
