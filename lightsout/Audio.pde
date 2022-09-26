@@ -24,9 +24,12 @@ public class Audio{
 		return this.player.isPlaying();
 	}
 	
-	public void stop() { //再生停止
+	public void end() { //再生停止
 		this.player.close();  //サウンドデータを終了
 		this.minim.stop();
 		//super.stop(); //コピペのプログラムに書いてあった。コメントアウトしないとエラー
+	}
+	public void pause() {
+		this.player.pause();
 	}
 }
