@@ -95,7 +95,12 @@ class Scene{
       case SELECT:
         if(mousePressed){
           if(gamePlay.onMouse()){
-            mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
+            if (load.fileNames[pickStage].equals("random")) {
+              mainGame = new MainGame(5, 5);
+              mainGame.randomMap(10);
+            } else {
+              mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
+            }
             gameMode = gamePlay.getGameMode();
           }
           for(int i = 0; i < load.fileNames.length; i++) {

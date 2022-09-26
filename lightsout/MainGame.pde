@@ -38,7 +38,7 @@ class MainGame{
     
     for (int i = 0; i < turn; i++) {
       int n = itr.next();
-      turnMap[n % h][n / h] = 1;
+      turnMap[n % w][n / w] = 1;
     }
     
     for (int i = 0; i < h; i++) {
