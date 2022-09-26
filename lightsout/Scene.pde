@@ -26,7 +26,7 @@ public class Scene{
 	Audio mainBgm = new Audio("Audio/BGM/BGM_Main.mp3");
 	
 	Scene() {
-		title = new Select(0, 100, "⌂");
+		title = new Select(0, 100, "↩");
 		gamePlay = new Select(0, 200, "Game Start");
 		select = new Select(0, 250, "Map Select");
 		result = new Select(0, 300, "Result");
@@ -70,6 +70,7 @@ public class Scene{
 		mainGame.drawPanel();
 		//mainGame.goalPanel();
 		if (!mainBgm.isPlaying()) {
+		  mainBgm.rewind();
 			mainBgm.play();
 			titleBgm.pause();
 		}
@@ -83,6 +84,7 @@ public class Scene{
 		select.draw();
 		gameEnd.draw();
 		if (!titleBgm.isPlaying()) {
+		  titleBgm.rewind();
 			titleBgm.play();
 			mainBgm.pause();
 		}
