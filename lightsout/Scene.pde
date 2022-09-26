@@ -27,10 +27,10 @@ public class Scene{
 	
 	Scene() {
 		title = new Select(0, 100, "↩");
-		gamePlay = new Select(0, 200, "Game Start");
-		select = new Select(0, 250, "Map Select");
-		result = new Select(0, 300, "Result");
-		gameEnd = new Select(0, 500, "Finish");
+		gamePlay = new Select(0, 200, "GAME START");
+		select = new Select(0, 250, "STAGE SELECT");
+		result = new Select(0, 300, "RESULT");
+		gameEnd = new Select(0, 500, "FINISH");
 		nextPage = new Select(700,500, "→");  //ステージセレクト右
 		previousPage = new Select(50,500,"←");  //ステージセレクト左
 		nextPage.setPanelSize(50,50);
@@ -80,7 +80,7 @@ public class Scene{
 		textAlign(TOP, LEFT);
 		fill(0);
 		t1 = millis();
-		text("Title Screen", 50, 50);
+		text("LIGHTS OUT", 50, 50);
 		select.draw();
 		gameEnd.draw();
 		if (!titleBgm.isPlaying()) {
@@ -93,7 +93,7 @@ public class Scene{
 	private void selectDraw() {
 		textAlign(TOP, LEFT);
 		fill(0);
-		text("Map Select", 50, 50);
+		text("STAGE SELECT", 50, 50);
 		gamePlay.draw();
 		title.draw();
 		// for (int i = 0; i < load.fileNames.length; i++) {
@@ -128,7 +128,7 @@ public class Scene{
 		t1 = millis();
 		textAlign(TOP, LEFT);
 		fill(0);
-		text("Game Over", 50, 50);
+		text("Game Clear!　手数　"+mainGame.getCount(), 50, 50);
 		title.draw();
 		gameEnd.draw();
 	}
