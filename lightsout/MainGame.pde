@@ -6,6 +6,7 @@ class MainGame{
   int[][] panel;
   int h,w,panelSize = 100;
   boolean isPressed;
+  int count  = 0;
   
   int[][] samplepanel  = {{1,1,0},{0,1,0},{0,1,1}};          ////////////////////別ステージのサンプルパネル
 
@@ -76,6 +77,9 @@ class MainGame{
         rect(i*panelSize + width/2 - w/2.0*panelSize,j*panelSize + height/2 - h/2.0 * panelSize,panelSize,panelSize);
       }
     }
+    textAlign(TOP, LEFT);
+    fill(0);
+    text(count, 50, 50);
   }
   
     public void goalPanel(){                        ///////////////////////// 目標の形の描画
@@ -118,6 +122,7 @@ class MainGame{
     if(mouseX<w*panelSize+ width/2 - w/2.0*panelSize&&mouseX>=width/2 - w/2.0*panelSize&&
        mouseY<h*panelSize+ height/2 - h/2.0*panelSize&&mouseY>=height/2 - h/2.0*panelSize){
       if (mousePressed && !isPressed){
+        count ++;
         int selectX = (mouseX - width/2 + (int)(w/2.0*panelSize))/panelSize;
         int selectY = (mouseY - height/2 + (int)(h/2.0*panelSize))/panelSize;
         turnPanel(selectX, selectY);
