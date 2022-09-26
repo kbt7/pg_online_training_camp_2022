@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Collections;
+
 class MainGame{
   int[][] panel;
   int h,w,panelSize = 100;
@@ -17,6 +21,47 @@ class MainGame{
     w = map.length;
     panel = map;
     isPressed = true;
+  }
+  
+  MainGame(int x, int y) {
+    w = x;
+    h = y;
+    panel = new int[w][h];
+    isPressed = true;
+  }
+  
+  public void randomMap(int turn) {
+    if (turn > w * h) turn = w * h;
+    int[][] turnMap = new int[w][h];
+    ArrayList<Integer> list = randomNumber(w * h);
+    Iterator<Integer> itr = list.iterator();
+    
+    for (int i = 0; i < turn; i++) {
+      int n = itr.next();
+      turnMap[n % h][n / h] = 1;
+    }
+    
+    for (int i = 0; i < h; i++) {
+      for (int j = 0; j < w; j++) {
+        int n = 1;
+        if (i != 0) n += turnMap[j][i - 1];
+        if (i != h - 1) n += turnMap[j][i + 1];
+        if (j != 0) n += turnMap[j - 1][i];
+        if (j != w - 1) n += turnMap[j + 1][i];
+        n += turnMap[j][i];
+        panel[j][i] = n&1;
+      }
+    }
+  }
+  
+  public ArrayList<Integer> randomNumber(int n) {
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    for (int i = 0; i < n; i++) {
+      list.add(i);
+    }
+    Collections.shuffle(list);
+    
+    return list;
   }
   
   public void drawPanel(){

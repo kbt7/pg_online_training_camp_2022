@@ -16,6 +16,7 @@ class Scene{
   private Stage[] stage;
   
   private int pickStage;
+  private boolean isPressed;
   
   Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
   Audio bgm = new Audio("testBGM.mp3");
@@ -45,6 +46,7 @@ class Scene{
     }
     
     gameMode = GameMode.TITLE;
+    isPressed = true;
   }
   
   public void drawScene(){
@@ -108,11 +110,12 @@ class Scene{
       case PLAY:
         mainGame.selectPanel();
         if(mainGame.stageClear()){
+          isPressed = true;
           gameMode = GameMode.RESULT;//ゲームクリア画面に移行//
         }
         break;
       case RESULT:
-        if(mousePressed){
+        if(mousePressed && !isPressed){
           if(title.onMouse()){
             gameMode = title.getGameMode();
           }
@@ -120,6 +123,7 @@ class Scene{
             gameMode = gameEnd.getGameMode();
           }
         }
+        if (!mousePressed) isPressed = false;
         break;
       default:
         break;
