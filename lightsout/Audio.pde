@@ -32,4 +32,7 @@ public class Audio{
 	public void pause() {
 		this.player.pause();
 	}
+	public void rewind() {
+		this.player.rewind();
+	}
 }
