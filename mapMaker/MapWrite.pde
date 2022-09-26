@@ -1,6 +1,6 @@
 class MapWrite{
   String file = "maps/m.txt";
-  String ansFile = "ans/m.txt";
+  String ansFile = "goals/m.txt";
   MapWrite(){}
   
   void save(int[][] map, int x, int y) {
