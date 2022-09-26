@@ -76,6 +76,7 @@ class Scene{
     textAlign(TOP, LEFT);
     fill(0);
     text("Game END", 50, 50);
+
     title.draw();
     gameEnd.draw();
   }
