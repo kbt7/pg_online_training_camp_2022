@@ -83,7 +83,7 @@ class MainGame{
 		}
     textAlign(TOP, LEFT);
     fill(0);
-    text("手数"+count, 50, 50);
+    text("手数　" + count, 50, 50);
 	}
 
 /*
