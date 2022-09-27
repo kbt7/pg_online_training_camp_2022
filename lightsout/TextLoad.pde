@@ -90,7 +90,7 @@ class TextLoad{
       l = min(lines.length + 1, SCOREMAX);
       c = new int[l];
       t = new float[l];
-      for (int i = 0; i < l - 1; i++) {
+      for (int i = 0; i < l; i++) {
         float[] sc = float(split(lines[i]," "));
         c[i] = (int)sc[0];
         t[i] = sc[1];
@@ -98,15 +98,19 @@ class TextLoad{
       for (int i = l - 1; i >= 0; i--) {
         if (c[i] == 0) continue;
         if(scoreCompare(count, time, c[i], t[i])) {
-          c[i + 1] = c[i];
-          t[i + 1] = t[i];
-          if (i == 0) {
-            c[i] = count;
-            t[i] = time;
+          if (i < l - 1) {
+            c[i + 1] = c[i];
+            t[i + 1] = t[i];
+            if (i == 0) {
+              c[i] = count;
+              t[i] = time;
+            }
           }
         } else {
-          c[i + 1] = count;
-          t[i + 1] = time;
+          if (i < l - 1) {
+            c[i + 1] = count;
+            t[i + 1] = time;
+          }
           break;
         }
       }
