@@ -95,7 +95,8 @@ class TextLoad{
         c[i] = (int)sc[0];
         t[i] = sc[1];
       }
-      for (int i = l - 2; i >= 0; i--) {
+      for (int i = l - 1; i >= 0; i--) {
+        if (c[i] == 0) continue;
         if(scoreCompare(count, time, c[i], t[i])) {
           c[i + 1] = c[i];
           t[i + 1] = t[i];
