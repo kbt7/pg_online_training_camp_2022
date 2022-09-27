@@ -20,9 +20,6 @@ public class Scene{
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
 	
-  private float start = 0;
-  private float finish = 0;
-
 	private int pickStage;
 	//private boolean isPressed;
 	
@@ -144,7 +141,7 @@ public class Scene{
 		t1 = millis();
 		textAlign(TOP, LEFT);
 		fill(0);
-		text("Game Clear!　手数　" + mainGame.getCount() + "　経過時間　" + (finish - start)/1000, 50, 50);
+		text("Game Clear!　手数　" + mainGame.getCount() + "　経過時間　" + (mainGame.finish - mainGame.start)/1000, 50, 50);
 		title.draw();
 		exit.draw();
 		select.draw();
@@ -165,10 +162,10 @@ public class Scene{
 					if (pickStage == RANDOMSELECT) {
 						mainGame = new MainGame(5, 5);
 						mainGame.randomMap(10);
-            start = millis();
+            mainGame.start = millis();
 					} else {
 						mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
-            start = millis();
+            mainGame.start = millis();
 					}
 					gameMode = gamePlay.getGameMode();
 				}
@@ -209,7 +206,7 @@ public class Scene{
 				}
 				break;
 			case PLAY:
-        finish = millis();
+        mainGame.finish = millis();
 				mainGame.selectPanel();
 				if (mainGame.stageClear()) {
 					gameMode = GameMode.RESULT;//ゲームクリア画面に移行//

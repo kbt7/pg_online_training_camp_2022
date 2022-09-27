@@ -7,12 +7,13 @@ class MainGame{
 	int h,w,panelSize = 100;
 	boolean isPressed;
   int count = 0;
+  private float start = 0;
+  private float finish = 0;
+
   
   public int getCount(){
     return count;
   }
-	
-	int[][] samplepanel  = {{1,1,0} ,{0,1,0} ,{0,1,1} };          ////////////////////別ステージのサンプルパネル
 	
 	MainGame() {
 		h = 5;
@@ -83,7 +84,7 @@ class MainGame{
 		}
     textAlign(TOP, LEFT);
     fill(0);
-    text("手数　" + count, 50, 50);
+    text("手数　" + count + "　経過時間　" + (millis()-start)/1000, 50, 50);
 	}
 
 /*
