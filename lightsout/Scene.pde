@@ -160,7 +160,7 @@ public class Scene{
 			case SELECT:
 				if (gamePlay.onMouse()) {
 					if (pickStage == RANDOMSELECT) {
-						mainGame = new MainGame(5, 5);
+						mainGame = new MainGame();
 						mainGame.randomMap(10);
             mainGame.start = millis();
 					} else {
