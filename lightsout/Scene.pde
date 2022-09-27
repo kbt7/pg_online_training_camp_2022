@@ -14,6 +14,8 @@ public class Scene{
 	
 	private Select title, gamePlay, select, result, exit, nextPage, previousPage;
 	private Stage[] stage;
+  private Stage randomStage;
+  private final int RANDOMSELECT = 100;
 	private int stageLimit = 4; //ステージセレクトで１画面に表示する最大数
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
@@ -50,6 +52,7 @@ public class Scene{
 		
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
+    randomStage = new Stage(600, 200, "random");
 		int stagecount = 0;
 		for (int i = 0; i < load.fileNames.length; i++) {
 			stage[i] = new Stage(stagecount * 120 + 170, 400, load.fileNames[i]);
@@ -61,6 +64,9 @@ public class Scene{
 				stage[i].select();
 			}
 		}
+    if (pickStage == RANDOMSELECT) {
+      randomStage.select();
+    }
 		
 		gameMode = GameMode.TITLE;
 	}
@@ -106,6 +112,8 @@ public class Scene{
 				stage[drawStage].draw();
 			}
 		}
+    randomStage.draw();
+
 		if (!titleBgm.isPlaying()) {
 			titleBgm.rewind();
 			titleBgm.play();
@@ -151,7 +159,7 @@ public class Scene{
 				break;
 			case SELECT:
 				if (gamePlay.onMouse()) {
-					if (load.fileNames[pickStage].equals("random")) {
+					if (pickStage == RANDOMSELECT) {
 						mainGame = new MainGame(5, 5);
 						mainGame.randomMap(10);
 					} else {
@@ -165,12 +173,23 @@ public class Scene{
 				for (int i = (page - 1) * 4; i < (page - 1) * 4 + 4; i++) {
 					if (i < load.fileNames.length) {
 						if (stage[i].onMouse()) {
-							stage[pickStage].unselect();
+              if (pickStage == RANDOMSELECT) {
+                randomStage.unselect();
+              } else {
+                stage[pickStage].unselect(); 
+              }
 							pickStage = i;
 							stage[i].select();
 						}
 					}
 				}
+        if (randomStage.onMouse()) {
+          if (pickStage != RANDOMSELECT) {
+            stage[pickStage].unselect(); 
+          }
+          pickStage = RANDOMSELECT;
+          randomStage.select();
+        }
 				if (nextPage.onMouse()) {
 					if (nextPage.getState()) {
 						this.page++;
