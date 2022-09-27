@@ -15,6 +15,10 @@ class TextLoad{
     return fileNames[n];
   }
   
+  public int getFileNum() {
+    return fileNames.length;
+  }
+  
   public int[][] mapLoad(int n){
     if (fileNames.length <= n) return new int[5][5];
     String[] lines = loadStrings("maps/" + fileNames[n]);
