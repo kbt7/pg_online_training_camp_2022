@@ -19,6 +19,7 @@ public class Scene{
 	private int stageLimit = 4; //ステージセレクトで１画面に表示する最大数
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
+  private String[] scores;
 	
 	private int pickStage;
 	//private boolean isPressed;
@@ -142,6 +143,9 @@ public class Scene{
 		textAlign(TOP, LEFT);
 		fill(0);
 		text("Game Clear!　手数　" + mainGame.getCount() + "　経過時間　" + (mainGame.finish - mainGame.start)/1000, 50, 50);
+    for (int i = 0; i < scores.length; i++) {
+      text(scores[i], 50, 50 + (i + 1) * 50);
+    }
 		title.draw();
 		exit.draw();
 		select.draw();
@@ -210,6 +214,13 @@ public class Scene{
 				mainGame.selectPanel();
 				if (mainGame.stageClear()) {
 					gameMode = GameMode.RESULT;//ゲームクリア画面に移行//
+          if (pickStage == RANDOMSELECT) {
+            load.saveScore("random", mainGame.getCount(), (mainGame.finish - mainGame.start)/1000);
+            scores = load.loadScore("random");
+          } else {
+            load.saveScore(load.getFileName(pickStage), mainGame.getCount(), (mainGame.finish - mainGame.start)/1000);
+            scores = load.loadScore(load.getFileName(pickStage));
+          }
 				}
 				if (title.onMouse()) {
 					gameMode = title.getGameMode();
