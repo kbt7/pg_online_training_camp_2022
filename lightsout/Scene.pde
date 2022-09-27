@@ -19,13 +19,11 @@ public class Scene{
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
 	
 	private int pickStage;
-	//private boolean isPressed;
+	private int titleBarCount;
 	
-	// Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
-	Audio titleBgm = new Audio("Audio/BGM/BGM_Title.mp3");
-	Audio mainBgm = new Audio("Audio/BGM/BGM_Main.mp3");
-	
+	//constructor
 	Scene() {
+		
 		title = new Select(0, 100, "↩");
 		gamePlay = new Select(0, 200, "GAME START");
 		select = new Select(0, 250, "STAGE SELECT");
@@ -45,9 +43,6 @@ public class Scene{
 		
 		pickStage = 0;
 		
-		titleBgm.setVolume( -20);
-		mainBgm.setVolume( -20);
-		
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
 		int stagecount = 0;
@@ -63,53 +58,55 @@ public class Scene{
 		}
 		
 		gameMode = GameMode.TITLE;
+		
+		this.titleBarCount = 0;
 	}
 	
+	//in game
 	public void drawScene() {
 		title.draw();
 		mainGame.drawPanel();
 		//mainGame.goalPanel();
-		if (!mainBgm.isPlaying()) {
-			mainBgm.rewind();
-			mainBgm.play();
-			titleBgm.pause();
-		}
+		
 	}
 	
+	//title
 	private void titleDraw() {
-		textAlign(TOP, LEFT);
+		textAlign(TOP, CENTER);
 		fill(0);
 		t1 = millis();
-		text("LIGHTS OUT", 50, 50);
+		if (titleBarCount <= 600) {
+			titleBarCount += 10;
+		}
+		fill(255);
+		strokeWeight(0);
+		rect(0,50,titleBarCount,50);
+		strokeWeight(1);
+		fill(200,30,0);
+		textSize(80);
+		textAlign(CENTER,CENTER);
+		text("LIGHTS OUT", 300, 50);
+		fill(0);
+		textSize(77);
+		text("LIGHTS OUT", 300, 50);
+		
 		select.draw();
 		exit.draw();
-		if (!titleBgm.isPlaying()) {
-			titleBgm.rewind();
-			titleBgm.play();
-			mainBgm.pause();
-		}
 	}
 	
+	//stage select
 	private void selectDraw() {
 		textAlign(TOP, LEFT);
 		fill(0);
 		text("STAGE SELECT", 50, 50);
 		gamePlay.draw();
 		title.draw();
-		// for (int i = 0; i < load.fileNames.length; i++) {
-		// 	stage[i].draw();
-		// }
 		
 		for (int i = 0;i < 4;i++) {
 			int drawStage = i + (page - 1) * 4;
 			if (drawStage < load.fileNames.length) {
 				stage[drawStage].draw();
 			}
-		}
-		if (!titleBgm.isPlaying()) {
-			titleBgm.rewind();
-			titleBgm.play();
-			mainBgm.pause();
 		}
 		
 		double pageLimit = Math.ceil((double)load.fileNames.length / stageLimit);
@@ -129,6 +126,7 @@ public class Scene{
 		}
 	}
 	
+	//result
 	private void resultDraw() {
 		t1 = millis();
 		textAlign(TOP, LEFT);
@@ -139,6 +137,7 @@ public class Scene{
 		select.draw();
 	}
 	
+	//クリックされたときに動作する
 	public void operate() {
 		switch(gameMode) {
 			case TITLE:
@@ -272,6 +271,7 @@ public class Scene{
 	// 	}
 	// }
 	
+	//描画
 	public void draw() {
 		switch(gameMode) {
 			case TITLE:
@@ -294,9 +294,17 @@ public class Scene{
 				}
 				break;
 		}
+		if (this.gameMode!= GameMode.TITLE) {
+			this.titleBarCount = 0;
+		}
+	}
+	//getter
+	public GameMode getGameMode() {
+		return this.gameMode;
 	}
 }
 
+//ボタン
 private class Select{
 	protected int PanelWidth = 500;
 	protected int PanelHeight = 50;
