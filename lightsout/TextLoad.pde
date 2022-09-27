@@ -90,7 +90,7 @@ class TextLoad{
       l = min(lines.length + 1, SCOREMAX);
       c = new int[l];
       t = new float[l];
-      for (int i = 0; i < l; i++) {
+      for (int i = 0; i < l && i < lines.length; i++) {
         float[] sc = float(split(lines[i]," "));
         c[i] = (int)sc[0];
         t[i] = sc[1];
