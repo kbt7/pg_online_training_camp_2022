@@ -140,11 +140,11 @@ public class Scene{
 	
 	private void resultDraw() {
 		t1 = millis();
-		textAlign(TOP, LEFT);
+		textAlign(TOP,RIGHT);
 		fill(0);
-		text("Game Clear!　手数　" + mainGame.getCount() + "　経過時間　" + (mainGame.finish - mainGame.start)/1000, 50, 50);
+		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" + (mainGame.finish - mainGame.start)/1000 + "\n" + "～SCORE～" + "\n" + "手数　" + "経過時間", 525, 35);
     for (int i = 0; i < scores.length; i++) {
-      text(scores[i], 50, 50 + (i + 1) * 50);
+      text(scores[i], 525, 150 + (i + 1) * 75);
     }
 		title.draw();
 		exit.draw();
