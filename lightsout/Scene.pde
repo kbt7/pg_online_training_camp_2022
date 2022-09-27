@@ -12,7 +12,7 @@ private enum GameMode{
 public class Scene{
 	private GameMode gameMode;
 	
-	private Select title, gamePlay, select, result, gameEnd, nextPage, previousPage;
+	private Select title, gamePlay, select, result, exit, nextPage, previousPage;
 	private Stage[] stage;
 	private int stageLimit = 4; //ステージセレクトで１画面に表示する最大数
 	private int page = 1; //ステージセレクトで表示する現在のページ
@@ -30,7 +30,7 @@ public class Scene{
 		gamePlay = new Select(0, 200, "GAME START");
 		select = new Select(0, 250, "STAGE SELECT");
 		result = new Select(0, 300, "RESULT");
-		gameEnd = new Select(0, 500, "FINISH");
+		exit = new Select(0, 500, "EXIT");
 		nextPage = new Select(700,500, "→");  //ステージセレクト右
 		previousPage = new Select(50,500,"←");  //ステージセレクト左
 		nextPage.setPanelSize(50,50);
@@ -41,7 +41,7 @@ public class Scene{
 		gamePlay.setGameMode(GameMode.PLAY);
 		select.setGameMode(GameMode.SELECT);
 		result.setGameMode(GameMode.RESULT);
-		gameEnd.setGameMode(GameMode.END);
+		exit.setGameMode(GameMode.END);
 		
 		pickStage = 0;
 		
@@ -70,7 +70,7 @@ public class Scene{
 		mainGame.drawPanel();
 		//mainGame.goalPanel();
 		if (!mainBgm.isPlaying()) {
-		  mainBgm.rewind();
+			mainBgm.rewind();
 			mainBgm.play();
 			titleBgm.pause();
 		}
@@ -82,9 +82,9 @@ public class Scene{
 		t1 = millis();
 		text("LIGHTS OUT", 50, 50);
 		select.draw();
-		gameEnd.draw();
+		exit.draw();
 		if (!titleBgm.isPlaying()) {
-		  titleBgm.rewind();
+			titleBgm.rewind();
 			titleBgm.play();
 			mainBgm.pause();
 		}
@@ -105,6 +105,11 @@ public class Scene{
 			if (drawStage < load.fileNames.length) {
 				stage[drawStage].draw();
 			}
+		}
+		if (!titleBgm.isPlaying()) {
+			titleBgm.rewind();
+			titleBgm.play();
+			mainBgm.pause();
 		}
 		
 		double pageLimit = Math.ceil((double)load.fileNames.length / stageLimit);
@@ -128,9 +133,10 @@ public class Scene{
 		t1 = millis();
 		textAlign(TOP, LEFT);
 		fill(0);
-		text("Game Clear!　手数　"+mainGame.getCount(), 50, 50);
+		text("Game Clear!　手数　" + mainGame.getCount(), 50, 50);
 		title.draw();
-		gameEnd.draw();
+		exit.draw();
+		select.draw();
 	}
 	
 	public void operate() {
@@ -139,8 +145,8 @@ public class Scene{
 				if (select.onMouse()) {
 					gameMode = select.getGameMode();
 				}
-				else if (gameEnd.onMouse()) {
-					gameMode = gameEnd.getGameMode();
+				if (exit.onMouse()) {
+					gameMode = exit.getGameMode();
 				}
 				break;
 			case SELECT:
@@ -191,8 +197,11 @@ public class Scene{
 				if (title.onMouse()) {
 					gameMode = title.getGameMode();
 				}
-				else if (gameEnd.onMouse()) {
-					gameMode = gameEnd.getGameMode();
+				if (exit.onMouse()) {
+					gameMode = exit.getGameMode();
+				}
+				if (select.onMouse()) {
+					gameMode = select.getGameMode();
 				}
 				break;
 			default:
@@ -207,8 +216,8 @@ public class Scene{
 	// 				if (select.onMouse()) {
 	// 					gameMode = select.getGameMode();
 	// 				}
-	// 				else if (gameEnd.onMouse()) {
-	// 					gameMode = gameEnd.getGameMode();
+	// 				else if (exit.onMouse()) {
+	// 					gameMode = exit.getGameMode();
 	// 				}
 	// 			}
 	// 			break;
@@ -252,8 +261,8 @@ public class Scene{
 	// 				if (title.onMouse()) {
 	// 					gameMode = title.getGameMode();
 	// 				}
-	// 				else if (gameEnd.onMouse()) {
-	// 					gameMode = gameEnd.getGameMode();
+	// 				else if (exit.onMouse()) {
+	// 					gameMode = exit.getGameMode();
 	// 				}
 	// 			}
 	// 			if (!mousePressed) isPressed = false;
