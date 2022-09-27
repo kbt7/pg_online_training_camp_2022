@@ -7,6 +7,8 @@ class MainGame{
 	int h,w,panelSize = 100;
 	boolean isPressed;
   int count = 0;
+  final int DEFAULTW = 5;
+  final int DEFAULTH = 5;
   
   public int getCount(){
     return count;
@@ -15,13 +17,14 @@ class MainGame{
 	int[][] samplepanel  = {{1,1,0} ,{0,1,0} ,{0,1,1} };          ////////////////////別ステージのサンプルパネル
 	
 	MainGame() {
-		h = 5;
-		w = 5;
+		h = DEFAULTH;
+		w = DEFAULTW;
 		panel = new int[w][h];
 		isPressed = true;
 	}
 	
 	MainGame(int[][] map) {
+    if (map == null) map = new int[DEFAULTW][DEFAULTH];
 		h = map[0].length;
 		w = map.length;
 		panel = map;
