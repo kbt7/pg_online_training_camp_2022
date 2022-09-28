@@ -75,7 +75,7 @@ public class Scene{
 	public void drawScene() {
 		title.draw();
 		mainGame.drawPanel();
-		//mainGame.goalPanel();
+		if (mainGame.goalExist()) mainGame.goalPanel();
 		if (!mainBgm.isPlaying()) {
 			mainBgm.rewind();
 			mainBgm.play();
@@ -169,6 +169,7 @@ public class Scene{
             mainGame.start = millis();
 					} else {
 						mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
+            if (load.goalExist[pickStage]) mainGame.setGoalPanel(load.goalLoad(pickStage));
             mainGame.start = millis();
 					}
 					gameMode = gamePlay.getGameMode();

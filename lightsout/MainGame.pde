@@ -4,7 +4,7 @@ import java.util.Collections;
 
 class MainGame{
 	int[][] panel;
-  private int[][] goalPanel;
+  private int[][] goalPanel = null;
 	int h,w,panelSize = 100;
 	boolean isPressed;
   int count = 0;
@@ -42,6 +42,10 @@ class MainGame{
 	
   public void setGoalPanel(int[][] goal) {
     goalPanel = goal;
+  }
+  
+  public boolean goalExist() {
+    return (goalPanel != null);
   }
 
 	public void randomMap(int turn) {
@@ -96,12 +100,12 @@ class MainGame{
 	}
 
 	public void goalPanel() {                        ///////////////////////// 目標の形の描画
-		for (int i = 0; i < h; i ++) {
-			for (int j = 0; j < w; j ++) {
-				if (goalPanel[j][i] == 0) {
+		for (int i = 0; i < w; i ++) {
+			for (int j = 0; j < h; j ++) {
+				if (goalPanel[i][j] == 0) {
 					 fill(128);
 				}
-				else if (goalPanel[j][i] == 1) {
+				else if (goalPanel[i][j] == 1) {
 					 fill(255);
 				}
 				rect(i * panelSize / 2,j * panelSize / 2 + height / 2 - h / 2.0 * panelSize / 2,panelSize / 2,panelSize / 2);
@@ -110,6 +114,7 @@ class MainGame{
 	}
 
 	public boolean stageClear() {
+    if (goalExist()) return stageClear(goalPanel);
 		for (int i = 0; i < w; i ++) {
 			for (int j = 0; j < h; j ++) {
 				if (panel[i][j] == 0) {
