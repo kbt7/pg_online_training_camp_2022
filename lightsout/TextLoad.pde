@@ -7,6 +7,7 @@ class TextLoad{
   String fileIntegral = "maps/fileIntegral.txt";
   String[] goalNames;
   String goalIntegral = "goals/goalIntegral.txt";
+  private boolean[] goalExist;
   
   private final int SCOREMAX = 5;
   
@@ -16,6 +17,11 @@ class TextLoad{
   TextLoad() {
      fileNames = loadStrings(fileIntegral);
      goalNames = loadStrings(goalIntegral);
+     goalExist = new boolean[getFileNum()];
+     
+     for (int i = 0; i < goalExist.length; i++) {
+       goalExist[i] = Arrays.asList(goalNames).contains(fileNames[i]);
+     }
      
      panel.setLayout(layout);
      panel.add( new JLabel("error 指定されたファイルは存在しません"));
@@ -53,21 +59,18 @@ class TextLoad{
     return map;
   }
   
-  public int[][] goalLoad(String str) {
-    if (Arrays.asList(fileNames).contains(str)){
-      String[] lines = loadStrings("goals/" + str);
-      int[] size = int(split(lines[0]," "));
-      int[][] map = new int[size[0]][size[1]];
-      for (int i = 1; i <= size[1]; i++) {
-        int[] s = int(split(lines[i]," "));
-        for (int j = 0; j < size[0]; j++) {
-          map[j][i - 1] = s[j];
-        }
+  public int[][] goalLoad(int n) {
+    if (!goalExist[n]) return null;
+    String[] lines = loadStrings("goals/" + getFileName(n));
+    int[] size = int(split(lines[0]," "));
+    int[][] map = new int[size[0]][size[1]];
+    for (int i = 1; i <= size[1]; i++) {
+      int[] s = int(split(lines[i]," "));
+      for (int j = 0; j < size[0]; j++) {
+        map[j][i - 1] = s[j];
       }
-      return map;
-    } else {
-      return null;
     }
+    return map;
   }
   
   public void saveScore(String str, int count, float time) {

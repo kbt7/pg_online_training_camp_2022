@@ -3,7 +3,7 @@ class Map{
   private int[][] mp;
   private int[][] goal;
   private final int PANELSIZE = 100;
-  private final int GOLESIZE = 100;
+  private final int GOALSIZE = 100;
   private boolean isPressed;
   Map() {
     this(5, 5);
@@ -42,9 +42,9 @@ class Map{
     for (int i = 0; i < h; i++) {
       for (int j = 0; j < w; j++) {
         fill(128 + 127 * goal[j][i]);
-        rect(j * GOLESIZE + width / 4 * 3 - w/2.0*GOLESIZE,
-             i * GOLESIZE + height /2 - h/2.0*GOLESIZE, 
-             GOLESIZE, GOLESIZE);
+        rect(j * GOALSIZE + width / 4 * 3 - w/2.0*GOALSIZE,
+             i * GOALSIZE + height /2 - h/2.0*GOALSIZE, 
+             GOALSIZE, GOALSIZE);
       }
     }
   }
@@ -67,8 +67,8 @@ class Map{
   
   public void selectGoal() {
     if (mousePressed && !isPressed) {
-      int selectX = floor((mouseX + w/2.0 * GOLESIZE - width/4 * 3)/GOLESIZE);
-      int selectY = floor((mouseY + h/2.0 * GOLESIZE - height/2)/GOLESIZE);
+      int selectX = floor((mouseX + w/2.0 * GOALSIZE - width/4 * 3)/GOALSIZE);
+      int selectY = floor((mouseY + h/2.0 * GOALSIZE - height/2)/GOALSIZE);
       trunGoal(selectX, selectY);
       isPressed = true;
     } else if (!mousePressed && isPressed) {
