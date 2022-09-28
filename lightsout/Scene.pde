@@ -122,14 +122,16 @@ public class Scene{
 		t1 = millis();
 		textAlign(TOP,RIGHT);
 		fill(0);
-		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" + (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位　" + "手数　" + "経過時間", 525, 35);
+		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" + 
+        (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位 " + "手数 " + "時間", 525, 35);
 		for (int i = 0; i < scores.length; i++) {
 			if (i == load.getRank()) {
 				fill(255, 0, 0);
 			} else {
 				fill(0);
 			}
-			text((i + 1) + " " + scores[i], 525, 150 + (i + 1) * 75);
+      float[] sc = float(split(scores[i], " "));
+			text((i + 1) + "    " + (int)sc[0] + "    " + sc[1], 525, 150 + (i + 1) * 75);
 		}
 		fill(0);
 		title.draw();
