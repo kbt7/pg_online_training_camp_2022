@@ -14,16 +14,21 @@ public class Scene{
 	
 	private Select title, gamePlay, select, result, exit, nextPage, previousPage;
 	private Stage[] stage;
+  private Stage randomStage;
+  private final int RANDOMSELECT = 100;
 	private int stageLimit = 4; //ステージセレクトで１画面に表示する最大数
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
+  private String[] scores;
 	
 	private int pickStage;
-	private int titleBarCount;
+	//private boolean isPressed;
 	
-	//constructor
+	// Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
+	Audio titleBgm = new Audio("Audio/BGM/BGM_Title.mp3");
+	Audio mainBgm = new Audio("Audio/BGM/BGM_Main.mp3");
+	
 	Scene() {
-		
 		title = new Select(0, 100, "↩");
 		gamePlay = new Select(0, 200, "GAME START");
 		select = new Select(0, 250, "STAGE SELECT");
@@ -43,8 +48,12 @@ public class Scene{
 		
 		pickStage = 0;
 		
+		titleBgm.setVolume( -20);
+		mainBgm.setVolume( -20);
+		
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
+    randomStage = new Stage(600, 200, "random");
 		int stagecount = 0;
 		for (int i = 0; i < load.fileNames.length; i++) {
 			stage[i] = new Stage(stagecount * 120 + 170, 400, load.fileNames[i]);
@@ -56,57 +65,60 @@ public class Scene{
 				stage[i].select();
 			}
 		}
+    if (pickStage == RANDOMSELECT) {
+      randomStage.select();
+    }
 		
 		gameMode = GameMode.TITLE;
-		
-		this.titleBarCount = 0;
 	}
 	
-	//in game
 	public void drawScene() {
 		title.draw();
 		mainGame.drawPanel();
-		//mainGame.goalPanel();
-		
+		if (mainGame.goalExist()) mainGame.goalPanel();
+		if (!mainBgm.isPlaying()) {
+			mainBgm.rewind();
+			mainBgm.play();
+			titleBgm.pause();
+		}
 	}
 	
-	//title
 	private void titleDraw() {
-		textAlign(TOP, CENTER);
+		textAlign(TOP, LEFT);
 		fill(0);
 		t1 = millis();
-		if (titleBarCount <= 600) {
-			titleBarCount += 10;
-		}
-		fill(255);
-		strokeWeight(0);
-		rect(0,50,titleBarCount,50);
-		strokeWeight(1);
-		fill(200,30,0);
-		textSize(80);
-		textAlign(CENTER,CENTER);
-		text("LIGHTS OUT", 300, 50);
-		fill(0);
-		textSize(77);
-		text("LIGHTS OUT", 300, 50);
-		
+		text("LIGHTS OUT", 50, 50);
 		select.draw();
 		exit.draw();
+		if (!titleBgm.isPlaying()) {
+			titleBgm.rewind();
+			titleBgm.play();
+			mainBgm.pause();
+		}
 	}
 	
-	//stage select
 	private void selectDraw() {
 		textAlign(TOP, LEFT);
 		fill(0);
 		text("STAGE SELECT", 50, 50);
 		gamePlay.draw();
 		title.draw();
+		// for (int i = 0; i < load.fileNames.length; i++) {
+		// 	stage[i].draw();
+		// }
 		
 		for (int i = 0;i < 4;i++) {
 			int drawStage = i + (page - 1) * 4;
 			if (drawStage < load.fileNames.length) {
 				stage[drawStage].draw();
 			}
+		}
+    randomStage.draw();
+
+		if (!titleBgm.isPlaying()) {
+			titleBgm.rewind();
+			titleBgm.play();
+			mainBgm.pause();
 		}
 		
 		double pageLimit = Math.ceil((double)load.fileNames.length / stageLimit);
@@ -126,18 +138,25 @@ public class Scene{
 		}
 	}
 	
-	//result
 	private void resultDraw() {
 		t1 = millis();
-		textAlign(TOP, LEFT);
+		textAlign(TOP,RIGHT);
 		fill(0);
-		text("Game Clear!　手数　" + mainGame.getCount(), 50, 50);
+		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" + (mainGame.finish - mainGame.start)/1000 + "\n" + "～SCORE～" + "\n" +"順位　" + "手数　" + "経過時間", 525, 35);
+    for (int i = 0; i < scores.length; i++) {
+      if (i == load.getRank()) {
+        fill(255, 0, 0);
+      } else {
+        fill(0);
+      }
+      text((i + 1) + " " + scores[i], 525, 150 + (i + 1) * 75);
+    }
+    fill(0);
 		title.draw();
 		exit.draw();
 		select.draw();
 	}
 	
-	//クリックされたときに動作する
 	public void operate() {
 		switch(gameMode) {
 			case TITLE:
@@ -150,11 +169,14 @@ public class Scene{
 				break;
 			case SELECT:
 				if (gamePlay.onMouse()) {
-					if (load.fileNames[pickStage].equals("random")) {
-						mainGame = new MainGame(5, 5);
+					if (pickStage == RANDOMSELECT) {
+						mainGame = new MainGame();
 						mainGame.randomMap(10);
+            mainGame.start = millis();
 					} else {
 						mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
+            if (load.goalExist[pickStage]) mainGame.setGoalPanel(load.goalLoad(pickStage));
+            mainGame.start = millis();
 					}
 					gameMode = gamePlay.getGameMode();
 				}
@@ -164,12 +186,23 @@ public class Scene{
 				for (int i = (page - 1) * 4; i < (page - 1) * 4 + 4; i++) {
 					if (i < load.fileNames.length) {
 						if (stage[i].onMouse()) {
-							stage[pickStage].unselect();
+              if (pickStage == RANDOMSELECT) {
+                randomStage.unselect();
+              } else {
+                stage[pickStage].unselect(); 
+              }
 							pickStage = i;
 							stage[i].select();
 						}
 					}
 				}
+        if (randomStage.onMouse()) {
+          if (pickStage != RANDOMSELECT) {
+            stage[pickStage].unselect(); 
+          }
+          pickStage = RANDOMSELECT;
+          randomStage.select();
+        }
 				if (nextPage.onMouse()) {
 					if (nextPage.getState()) {
 						this.page++;
@@ -184,9 +217,17 @@ public class Scene{
 				}
 				break;
 			case PLAY:
+        mainGame.finish = millis();
 				mainGame.selectPanel();
 				if (mainGame.stageClear()) {
 					gameMode = GameMode.RESULT;//ゲームクリア画面に移行//
+          if (pickStage == RANDOMSELECT) {
+            load.saveScore("random", mainGame.getCount(), (mainGame.finish - mainGame.start)/1000);
+            scores = load.loadScore("random");
+          } else {
+            load.saveScore(load.getFileName(pickStage), mainGame.getCount(), (mainGame.finish - mainGame.start)/1000);
+            scores = load.loadScore(load.getFileName(pickStage));
+          }
 				}
 				if (title.onMouse()) {
 					gameMode = title.getGameMode();
@@ -271,7 +312,6 @@ public class Scene{
 	// 	}
 	// }
 	
-	//描画
 	public void draw() {
 		switch(gameMode) {
 			case TITLE:
@@ -294,17 +334,9 @@ public class Scene{
 				}
 				break;
 		}
-		if (this.gameMode!= GameMode.TITLE) {
-			this.titleBarCount = 0;
-		}
-	}
-	//getter
-	public GameMode getGameMode() {
-		return this.gameMode;
 	}
 }
 
-//ボタン
 private class Select{
 	protected int PanelWidth = 500;
 	protected int PanelHeight = 50;

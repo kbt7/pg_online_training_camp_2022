@@ -53,7 +53,7 @@ void draw() {
     map.drawGoalPanel();
     fill(0);
     text("Gole", width / 4 * 3, 100);
-    text("Enetrで出力", width/2, 50);
+    text("Enterで出力", width/2, 50);
     if (keyPressed && key == ENTER && !isPressed) {
       mapWrite.save(map.getMap(), map.getWidth(), map.getHeight());
       mapWrite.saveAns(map.getGoal(), map.getWidth(), map.getHeight());

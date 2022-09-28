@@ -4,24 +4,32 @@ import java.util.Collections;
 
 class MainGame{
 	int[][] panel;
+  private int[][] goalPanel = null;
 	int h,w,panelSize = 100;
 	boolean isPressed;
   int count = 0;
+  private float start = 0;
+  private float finish = 0;
+
+  final int DEFAULTW = 5;
+  final int DEFAULTH = 5;
+  
+  private final int LIGHTDIF = 8;
+  private final int GOALX = 50;
   
   public int getCount(){
     return count;
   }
 	
-	int[][] samplepanel  = {{1,1,0} ,{0,1,0} ,{0,1,1} };          ////////////////////別ステージのサンプルパネル
-	
 	MainGame() {
-		h = 5;
-		w = 5;
+		h = DEFAULTH;
+		w = DEFAULTW;
 		panel = new int[w][h];
 		isPressed = true;
 	}
 	
 	MainGame(int[][] map) {
+    if (map == null) map = new int[DEFAULTW][DEFAULTH];
 		h = map[0].length;
 		w = map.length;
 		panel = map;
@@ -35,6 +43,14 @@ class MainGame{
 		isPressed = true;
 	}
 	
+  public void setGoalPanel(int[][] goal) {
+    goalPanel = goal;
+  }
+  
+  public boolean goalExist() {
+    return (goalPanel != null);
+  }
+
 	public void randomMap(int turn) {
 		if (turn > w * h) turn = w * h;
 		int[][] turnMap = new int[w][h];
@@ -76,33 +92,42 @@ class MainGame{
 					 fill(128);
 				}
 				else if (panel[i][j] == 1) {
-					 fill(255);
+           fill(200);
 				}
 				rect(i * panelSize + width / 2 - w / 2.0 * panelSize,j * panelSize + height / 2 - h / 2.0 * panelSize,panelSize,panelSize);
+        if (panel[i][j] == 1) {
+           fill(255);
+           noStroke();
+           rect(i * panelSize + width / 2 - w / 2.0 * panelSize + LIGHTDIF/2,
+                j * panelSize + height / 2 - h / 2.0 * panelSize + LIGHTDIF/2,
+                panelSize - LIGHTDIF,panelSize - LIGHTDIF);
+           stroke(0);
+        }
 			}
 		}
     textAlign(TOP, LEFT);
     fill(0);
-    text("手数"+count, 50, 50);
+    text("手数　" + count + "　経過時間　" + (millis()-start)/1000, 50, 50);
 	}
 
-/*
 	public void goalPanel() {                        ///////////////////////// 目標の形の描画
-		for (int i = 0; i < h; i ++) {
-			for (int j = 0; j < w; j ++) {
-				if (samplepanel[j][i] == 0) {
+    textAlign(CENTER);
+    text("目標",w/4.0*panelSize + GOALX, height/2 - panelSize/2 * (h + 1)/2.0);
+		for (int i = 0; i < w; i ++) {
+			for (int j = 0; j < h; j ++) {
+				if (goalPanel[i][j] == 0) {
 					 fill(128);
 				}
-				else if (samplepanel[j][i] == 1) {
+				else if (goalPanel[i][j] == 1) {
 					 fill(255);
 				}
-				rect(i * panelSize / 2,j * panelSize / 2 + height / 2 - h / 2.0 * panelSize / 2,panelSize / 2,panelSize / 2);
+				rect(i * panelSize / 2 + GOALX,j * panelSize / 2 + height / 2 - h / 2.0 * panelSize / 2,panelSize / 2,panelSize / 2);
 			}
 		}
 	}
-*/	
 
 	public boolean stageClear() {
+    if (goalExist()) return stageClear(goalPanel);
 		for (int i = 0; i < w; i ++) {
 			for (int j = 0; j < h; j ++) {
 				if (panel[i][j] == 0) {
