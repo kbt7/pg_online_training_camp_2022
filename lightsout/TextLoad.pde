@@ -83,7 +83,7 @@ class TextLoad{
     int[] c;
     float[] t;
     int l;
-    if (lines == null) {
+    if (lines == null || lines.length == 0) {
       l = 1;
       c = new int[l];
       t = new float[l];
