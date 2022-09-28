@@ -24,6 +24,7 @@ public class Scene{
 	private int pickStage;
 	//private boolean isPressed;
 	
+	private ClearEffect clearEffect;
 	
 	Scene() {
 		title = new Select(0, 100, "↩");
@@ -45,6 +46,7 @@ public class Scene{
 		
 		pickStage = 0;
 		
+		this.clearEffect = new ClearEffect(100);
 		
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
@@ -120,6 +122,7 @@ public class Scene{
 	
 	private void resultDraw() {
 		t1 = millis();
+		clearEffect.draw();
 		textAlign(TOP,RIGHT);
 		fill(0);
 		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" + (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位　" + "手数　" + "経過時間", 525, 35);
@@ -131,10 +134,11 @@ public class Scene{
 			}
 			text((i + 1) + " " + scores[i], 525, 150 + (i + 1) * 75);
 		}
-		fill(0);
+		
 		title.draw();
 		exit.draw();
 		select.draw();
+		
 	}
 	
 	public void operate() {
@@ -293,6 +297,7 @@ public class Scene{
 	// }
 	
 	public void draw() {
+		strokeWeight(1);
 		switch(gameMode) {
 			case TITLE:
 				titleDraw();
@@ -399,6 +404,7 @@ private class Select{
 			else{
 				fill(panelColor, LowAlpha);
 			}
+			strokeWeight(1);
 			rect(x, y, PanelWidth, PanelHeight);
 			
 			fill(textColor);

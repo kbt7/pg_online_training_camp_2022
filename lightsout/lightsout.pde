@@ -10,6 +10,7 @@ void setup() {
 	scene = new Scene();
 	PFont font = createFont("MS Gothic",50);
 	textFont(font);
+	surface.setResizable(true);
 	
 	// Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
 	se = new Audio("Audio/SE/SE_Click.mp3");
