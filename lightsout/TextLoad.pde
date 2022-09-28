@@ -8,6 +8,7 @@ class TextLoad{
   String[] goalNames;
   String goalIntegral = "goals/goalIntegral.txt";
   private boolean[] goalExist;
+  private int rank;
   
   private final int SCOREMAX = 5;
   
@@ -34,6 +35,10 @@ class TextLoad{
   
   public int getFileNum() {
     return fileNames.length;
+  }
+  
+  public int getRank() {
+    return rank;
   }
   
   public int[][] mapLoad(int n){
@@ -83,12 +88,14 @@ class TextLoad{
     int[] c;
     float[] t;
     int l;
+    rank = -1;
     if (lines == null || lines.length == 0) {
       l = 1;
       c = new int[l];
       t = new float[l];
       c[0] = count;
       t[0] = time;
+      rank = 0;
     } else {
       l = min(lines.length + 1, SCOREMAX);
       c = new int[l];
@@ -107,12 +114,14 @@ class TextLoad{
             if (i == 0) {
               c[i] = count;
               t[i] = time;
+              rank = i;
             }
           }
         } else {
           if (i < l - 1) {
             c[i + 1] = count;
             t[i + 1] = time;
+            rank = i + 1;
           }
           break;
         }
@@ -132,5 +141,4 @@ class TextLoad{
   public String[] loadScore(String str) {
     return loadStrings("score/" + str);
   }
-  
 }
