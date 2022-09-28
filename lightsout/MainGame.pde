@@ -14,6 +14,9 @@ class MainGame{
   final int DEFAULTW = 5;
   final int DEFAULTH = 5;
   
+  private final int LIGHTDIF = 8;
+  private final int GOALX = 50;
+  
   public int getCount(){
     return count;
   }
@@ -89,9 +92,17 @@ class MainGame{
 					 fill(128);
 				}
 				else if (panel[i][j] == 1) {
-					 fill(255);
+           fill(200);
 				}
 				rect(i * panelSize + width / 2 - w / 2.0 * panelSize,j * panelSize + height / 2 - h / 2.0 * panelSize,panelSize,panelSize);
+        if (panel[i][j] == 1) {
+           fill(255);
+           noStroke();
+           rect(i * panelSize + width / 2 - w / 2.0 * panelSize + LIGHTDIF/2,
+                j * panelSize + height / 2 - h / 2.0 * panelSize + LIGHTDIF/2,
+                panelSize - LIGHTDIF,panelSize - LIGHTDIF);
+           stroke(0);
+        }
 			}
 		}
     textAlign(TOP, LEFT);
@@ -100,6 +111,8 @@ class MainGame{
 	}
 
 	public void goalPanel() {                        ///////////////////////// 目標の形の描画
+    textAlign(CENTER);
+    text("目標",w/4.0*panelSize + GOALX, height/2 - panelSize/2 * (h + 1)/2.0);
 		for (int i = 0; i < w; i ++) {
 			for (int j = 0; j < h; j ++) {
 				if (goalPanel[i][j] == 0) {
@@ -108,7 +121,7 @@ class MainGame{
 				else if (goalPanel[i][j] == 1) {
 					 fill(255);
 				}
-				rect(i * panelSize / 2,j * panelSize / 2 + height / 2 - h / 2.0 * panelSize / 2,panelSize / 2,panelSize / 2);
+				rect(i * panelSize / 2 + GOALX,j * panelSize / 2 + height / 2 - h / 2.0 * panelSize / 2,panelSize / 2,panelSize / 2);
 			}
 		}
 	}
