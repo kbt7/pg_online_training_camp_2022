@@ -50,6 +50,8 @@ public class Scene{
 		exit.setGameMode(GameMode.END);
 		
 		pickStage = 0;
+
+    sc = new float[5][];
 		
 		this.clearEffect = new ClearEffect(100);
 		
@@ -249,7 +251,6 @@ public class Scene{
 					} else {
 						load.saveScore(load.getFileName(pickStage), mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(load.getFileName(pickStage));
-            sc = new float[scores.length][];
             for (int i = 0; i < scores.length; i++) {
               sc[i] = float(split(scores[i], " "));
             }
