@@ -15,13 +15,14 @@ public class Scene{
 	
 	private Select title, gamePlay, select, result, exit, nextPage, previousPage;
 	private Stage[] stage;
-	private Stage randomStage;
+	private Stage[] randomStage;
 	private final int RANDOMSELECT = 100;
 	private int stageLimit = 4; //ステージセレクトで１画面に表示する最大数
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
 	private String[] scores;
   PGraphics pg;
+  float[][] sc;
 	
 	private int pickStage;
 	//private boolean isPressed;
@@ -54,10 +55,14 @@ public class Scene{
 		
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
-		randomStage = new Stage(600, 200, "random");
+    randomStage = new Stage[2];
+    randomStage[0] = new Stage(540, 200, "random");
+    randomStage[0].str = "random\n3×3";
+		randomStage[1] = new Stage(660, 200, "random");
+    randomStage[1].str = "random\n5×5";
 		int stagecount = 0;
 		for (int i = 0; i < load.fileNames.length; i++) {
-			stage[i] = new Stage(stagecount * 120 + 170, 400, load.fileNames[i]);
+			stage[i] = new Stage(stagecount * 120 + 170, 400, split(load.fileNames[i], ".")[0]);
 			stagecount++;
 			if (stagecount > 3) { //4ステージごとに位置リセット
 				stagecount = 0;
@@ -66,8 +71,8 @@ public class Scene{
 				stage[i].select();
 			}
 		}
-		if (pickStage == RANDOMSELECT) {
-			randomStage.select();
+		if (pickStage >= RANDOMSELECT) {
+			randomStage[pickStage - RANDOMSELECT].select();
 		}
 		
 		gameMode = GameMode.TITLE;
@@ -116,7 +121,9 @@ public class Scene{
 				stage[drawStage].draw();
 			}
 		}
-		randomStage.draw();
+    for (int i = 0; i < randomStage.length; i++) {
+		  randomStage[i].draw();
+    }
 		
 		
 		double pageLimit = Math.ceil((double)load.fileNames.length / stageLimit);
@@ -149,8 +156,9 @@ public class Scene{
 			} else {
 				fill(0);
 			}
-      float[] sc = float(split(scores[i], " "));
-			text((i + 1) + "    " + (int)sc[0] + "    " + sc[1], 525, 150 + (i + 1) * 75);
+			text((i + 1), 525, 150 + (i + 1) * 75);
+      text((int)sc[i][0],600, 150 + (i + 1) * 75);
+      text(sc[i][1],660, 150 + (i + 1) * 75);
 		}
 		
 		title.draw();
@@ -171,9 +179,15 @@ public class Scene{
 				break;
 			case SELECT:
 				if (gamePlay.onMouse()) {
-					if (pickStage == RANDOMSELECT) {
-						mainGame = new MainGame();
-						mainGame.randomMap(10);
+					if (pickStage >= RANDOMSELECT) {
+            if (pickStage == RANDOMSELECT) {
+						  mainGame = new MainGame(3, 3);
+              mainGame.randomMap(5);
+            } else {
+              mainGame = new MainGame(5, 5);
+              mainGame.randomMap(10);
+            }
+						
 						mainGame.start = millis();
 					} else {
 						mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
@@ -188,8 +202,8 @@ public class Scene{
 				for (int i = (page - 1) * 4; i < (page - 1) * 4 + 4; i++) {
 					if (i < load.fileNames.length) {
 						if (stage[i].onMouse()) {
-							if (pickStage == RANDOMSELECT) {
-								randomStage.unselect();
+							if (pickStage >= RANDOMSELECT) {
+                randomStage[pickStage - RANDOMSELECT].unselect();
 							} else {
 								stage[pickStage].unselect();
 							}
@@ -198,13 +212,19 @@ public class Scene{
 						}
 					}
 				}
-				if (randomStage.onMouse()) {
-					if (pickStage != RANDOMSELECT) {
-						stage[pickStage].unselect();
-					}
-					pickStage = RANDOMSELECT;
-					randomStage.select();
-				}
+        for (int i = 0; i < randomStage.length; i++) {
+  				if (randomStage[i].onMouse()) {
+  					if (pickStage != RANDOMSELECT + i) {
+              if (pickStage < RANDOMSELECT) {
+  						  stage[pickStage].unselect();
+              } else {
+                randomStage[pickStage - RANDOMSELECT].unselect();
+              }
+  					}
+  					pickStage = RANDOMSELECT + i;
+  					randomStage[i].select();
+  				}
+        }
 				if (nextPage.onMouse()) {
 					if (nextPage.getState()) {
 						this.page++;
@@ -229,6 +249,9 @@ public class Scene{
 					} else {
 						load.saveScore(load.getFileName(pickStage), mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(load.getFileName(pickStage));
+            for (int i = 0; i < load.getFileNum(); i++) {
+              sc[i] = float(split(scores[i], " "));
+            }
 					}
 				}
 				if (title.onMouse()) {
