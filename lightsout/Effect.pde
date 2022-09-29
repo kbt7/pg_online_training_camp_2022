@@ -18,10 +18,9 @@ public class ClearEffect {
 		//println(this.particle.length);
 		background(this.backgroundColor);
 		for (int i = 0;i < this.particle.length;i++) {
-			this.particle[i].move();
+			this.particle[i].reverseMove();
 			this.particle[i].draw();
 		}
-		stroke(0); //これがないとSelectの枠線が消える
 	}
 }
 
@@ -50,9 +49,15 @@ public class Particle{
 		fill(this.c);
 		noStroke();
 		ellipse(this.x,this.y,this.size,this.size);
+		stroke(0);
 	}
 	
 	public void move() {
+		this.x += this.vx;
+		this.y += this.vy;
+	}
+	
+	public void reverseMove() {
 		this.x += this.vx;
 		this.y += this.vy;
 		if (this.y > height) {
@@ -72,5 +77,51 @@ public class Particle{
 	public void setSpeed(int vx,int vy) {
 		this.vx = vx;
 		this.vy = vy;
+	}
+	public void setColor(color c) {
+		this.c = c;
+	}
+	
+	//getter
+	public int getvx() {
+		return this.vx;
+	}
+	public int getvy() {
+		return this.vy;
+	}
+}
+
+public class ClickEffect{
+	
+	private Particle[] particle;
+	private int pSize = 8;
+	private color pColor = color(255,0,255);
+	private int n;
+	
+	public ClickEffect(int n) {
+		this.n = n;
+		particle = new Particle[n];
+		for (int i = 0;i < n;i++) {
+			particle[i] = new Particle(pSize,pColor);
+			particle[i].setXY( -9999, -9999);
+			particle[i].setSpeed(0,0);
+		}
+	}
+	
+	public void start() {
+		for (int i = 0;i < this.n;i++) {
+			particle[i] = new Particle(pSize,pColor);
+			particle[i].setXY(mouseX,mouseY);
+			particle[i].setSpeed((int)random( -5,5),(int)random( -13));
+			particle[i].setColor(color(random(150),random(150),150));
+		}
+	}
+	
+	public void draw() {
+		for (int i = 0;i < this.n;i++) {
+			this.particle[i].move();
+			this.particle[i].setSpeed(this.particle[i].getvx(),this.particle[i].getvy() + 1);
+			this.particle[i].draw();
+		}
 	}
 }

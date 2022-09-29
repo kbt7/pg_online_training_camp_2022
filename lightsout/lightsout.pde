@@ -1,9 +1,12 @@
 Scene scene;
 
-Audio se;
+Audio clickSe;
+Audio panelClickSe;
 Audio mainBgm;
 Audio titleBgm;
 Audio resultBgm;
+
+ClickEffect clickEffect;
 
 void setup() {
 	size(800, 600, P2D);
@@ -13,7 +16,8 @@ void setup() {
 	surface.setResizable(true);
 	
 	// Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
-	se = new Audio("Audio/SE/SE_Click.mp3");
+	clickSe = new Audio("Audio/SE/SE_Click.mp3");
+	panelClickSe = new Audio("Audio/SE/SE_PanelClick.mp3");
 	titleBgm = new Audio("Audio/BGM/BGM_Title.mp3");
 	mainBgm = new Audio("Audio/BGM/BGM_Main.mp3");
 	resultBgm = new Audio("Audio/BGM/BGM_Result.mp3");
@@ -21,6 +25,10 @@ void setup() {
 	titleBgm.setVolume( -20);
 	mainBgm.setVolume( -20);
 	resultBgm.setVolume( -20);
+	panelClickSe.setVolume( -20);
+	clickSe.setVolume( -20);
+	
+	clickEffect = new ClickEffect(10);
 } //<>//
 
 void draw() {
@@ -28,6 +36,7 @@ void draw() {
 	//scene.operate();
 	scene.draw(); //<>//
 	playBGM();
+	clickEffect.draw();
 }
 
 
@@ -82,12 +91,17 @@ boolean isPressed = false;
 //Audio se = new Audio("Audio/SE/SE_Click.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
 void mousePressed() {
 	if (!isPressed) {
-		se.rewind();
-		se.setVolume( -20);
-		se.play();
+		if (scene.getGameMode() ==  GameMode.PLAY) {
+			panelClickSe.rewind();
+			panelClickSe.play();
+		} else{
+			clickSe.rewind();
+			clickSe.play();
+		}
 		
 		scene.operate(); //マウスボタンが離れた瞬間に一回呼ばれる
 		isPressed = true;
+		clickEffect.start();
 	}
 }
 void mouseReleased() {
@@ -99,7 +113,8 @@ public PApplet getPApplet() { //Audio.pdeのMinimライブラリの初期化にP
 }
 
 void dispose() { //プログラム終了時処理
-	se.end();
+	clickSe.end();
+	panelClickSe.end();
 	mainBgm.end();
 	titleBgm.end();
 	resultBgm.end();
