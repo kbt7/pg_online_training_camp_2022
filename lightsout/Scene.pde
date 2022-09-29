@@ -71,6 +71,17 @@ public class Scene{
 		}
 		
 		gameMode = GameMode.TITLE;
+
+    pg = createGraphics(width, height);
+    pg.beginDraw();
+    pg.background(125);
+    pg.textAlign(TOP, LEFT);
+    pg.fill(0);
+    pg.textSize(50);
+    pg.text("LIGHTS OUT", 50, 50);
+    pg.endDraw();
+    sd.set("iTex",pg);
+    sd.set("iResolution", (float)width, (float)height);
 	}
 	
 	public void drawScene() {
@@ -80,18 +91,8 @@ public class Scene{
 	}
 	
 	private void titleDraw() {
-    pg = createGraphics(width, height);
-    pg.beginDraw();
-    pg.background(125);
-		pg.textAlign(TOP, LEFT);
-		pg.fill(0);
-    pg.textSize(50);
 		t1 = millis();
-		pg.text("LIGHTS OUT", 50, 50);
-    pg.endDraw();
-    sd.set("iTex",pg);
     sd.set("iTime", millis() / 1000.0);
-    sd.set("iResolution", (float)width, (float)height);
     shader(sd);
     rect(0, 0, width, height);
     resetShader();
