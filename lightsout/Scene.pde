@@ -251,10 +251,10 @@ public class Scene{
 					} else {
 						load.saveScore(load.getFileName(pickStage), mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(load.getFileName(pickStage));
-            for (int i = 0; i < scores.length; i++) {
-              sc[i] = float(split(scores[i], " "));
-            }
 					}
+          for (int i = 0; i < scores.length; i++) {
+            sc[i] = float(split(scores[i], " "));
+          }
 				}
 				if (title.onMouse()) {
 					gameMode = title.getGameMode();
