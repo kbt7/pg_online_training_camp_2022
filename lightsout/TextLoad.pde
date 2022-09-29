@@ -25,7 +25,7 @@ class TextLoad{
      }
      
      panel.setLayout(layout);
-     panel.add( new JLabel("error 指定されたファイルは存在しません"));
+     panel.add( new JLabel("指定されたファイルは存在しないため標準のステージをプレイします"));
   }
   
   public String getFileName(int n) {
