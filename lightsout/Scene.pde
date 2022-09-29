@@ -243,9 +243,9 @@ public class Scene{
 				mainGame.selectPanel();
 				if (mainGame.stageClear()) {
 					gameMode = GameMode.RESULT;//ゲームクリア画面に移行//
-					if (pickStage == RANDOMSELECT) {
-						load.saveScore("random", mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
-						scores = load.loadScore("random");
+					if (pickStage >= RANDOMSELECT) {
+						load.saveScore(randomStage[pickStage - RANDOMSELECT].str, mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
+						scores = load.loadScore(randomStage[pickStage - RANDOMSELECT].str);
 					} else {
 						load.saveScore(load.getFileName(pickStage), mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(load.getFileName(pickStage));
