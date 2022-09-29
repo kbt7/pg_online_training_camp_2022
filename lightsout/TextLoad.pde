@@ -12,8 +12,9 @@ class TextLoad{
   
   private final int SCOREMAX = 5;
   
-  JPanel panel = new JPanel();
-  BoxLayout layout = new BoxLayout (panel, BoxLayout.Y_AXIS);
+  JPanel dialog_p = new JPanel();
+  JOptionPane jop = new JOptionPane("指定したファイルが存在しないため標準ステージをプレイします", JOptionPane.WARNING_MESSAGE);
+  JDialog dialog = jop.createDialog(null, "error");
   
   TextLoad() {
      fileNames = loadStrings(fileIntegral);
@@ -23,9 +24,8 @@ class TextLoad{
      for (int i = 0; i < goalExist.length; i++) {
        goalExist[i] = Arrays.asList(goalNames).contains(fileNames[i]);
      }
-     
-     panel.setLayout(layout);
-     panel.add( new JLabel("指定されたファイルは存在しないため標準のステージをプレイします"));
+
+     dialog.add(dialog_p);
   }
   
   public String getFileName(int n) {
@@ -49,7 +49,9 @@ class TextLoad{
       lines = loadStrings("maps/" + fileNames[n]);
       size = int(split(lines[0]," "));
     } catch (Exception e) {
-      JOptionPane.showMessageDialog(null, panel, "error", JOptionPane.WARNING_MESSAGE);
+      dialog.setAlwaysOnTop(true);
+      dialog.setVisible(true);
+      dialog.setAlwaysOnTop(false);
       return null;
     }
     
