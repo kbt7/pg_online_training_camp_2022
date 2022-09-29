@@ -58,10 +58,10 @@ public class Scene{
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
     randomStage = new Stage[2];
-    randomStage[0] = new Stage(540, 200, "random");
-    randomStage[0].str = "random\n3×3";
-		randomStage[1] = new Stage(660, 200, "random");
-    randomStage[1].str = "random\n5×5";
+    randomStage[0] = new Stage(540, 200, "rand3");
+    //randomStage[0].str = "random3*3";
+		randomStage[1] = new Stage(660, 200, "rand5");
+    //randomStage[1].str = "random5*5";
 		int stagecount = 0;
 		for (int i = 0; i < load.fileNames.length; i++) {
 			stage[i] = new Stage(stagecount * 120 + 170, 400, split(load.fileNames[i], ".")[0]);
