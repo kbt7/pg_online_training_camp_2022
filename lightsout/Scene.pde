@@ -1,5 +1,6 @@
 MainGame mainGame;
 TextLoad load;
+PShader sd;
 
 private enum GameMode{
 	TITLE,
@@ -20,6 +21,7 @@ public class Scene{
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
 	private String[] scores;
+  PGraphics pg;
 	
 	private int pickStage;
 	//private boolean isPressed;
@@ -37,6 +39,8 @@ public class Scene{
 		nextPage.setPanelSize(50,50);
 		previousPage.setPanelSize(50,50);
 		title.setPanelSize(50,50);
+
+    sd = loadShader("shader.frag");
 		
 		title.setGameMode(GameMode.TITLE);
 		gamePlay.setGameMode(GameMode.PLAY);
@@ -76,10 +80,21 @@ public class Scene{
 	}
 	
 	private void titleDraw() {
-		textAlign(TOP, LEFT);
-		fill(0);
+    pg = createGraphics(width, height);
+    pg.beginDraw();
+    pg.background(125);
+		pg.textAlign(TOP, LEFT);
+		pg.fill(0);
+    pg.textSize(50);
 		t1 = millis();
-		text("LIGHTS OUT", 50, 50);
+		pg.text("LIGHTS OUT", 50, 50);
+    pg.endDraw();
+    sd.set("iTex",pg);
+    sd.set("iTime", millis() / 1000.0);
+    sd.set("iResolution", (float)width, (float)height);
+    shader(sd);
+    rect(0, 0, width, height);
+    resetShader();
 		select.draw();
 		exit.draw();
 	}

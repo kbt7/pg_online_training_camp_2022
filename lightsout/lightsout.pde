@@ -6,7 +6,7 @@ Audio titleBgm;
 Audio resultBgm;
 
 void setup() {
-	size(800, 600);
+	size(800, 600, P2D);
 	scene = new Scene();
 	PFont font = createFont("MS Gothic",50);
 	textFont(font);
