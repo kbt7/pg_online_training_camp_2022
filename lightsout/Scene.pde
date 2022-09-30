@@ -25,7 +25,9 @@ public class Scene{
 	float[][] sc;
 
   PImage img;
-
+  
+  int charPosition = 100;
+  
 	private int pickStage;
 	//private boolean isPressed;
 
@@ -33,16 +35,16 @@ public class Scene{
 
 	Scene() {
     img = loadImage("image/title.png");
-		title = new Select(0, 100, "↩");
-		gamePlay = new Select(0, 200, "GAME START");
-		select = new Select(0, 250, "STAGE SELECT");
-		result = new Select(0, 300, "RESULT");
-		exit = new Select(0, 500, "EXIT");
-		nextPage = new Select(700,500, "→");  //ステージセレクト右
-		previousPage = new Select(50,500,"←");  //ステージセレクト左
-		nextPage.setPanelSize(50,50);
-		previousPage.setPanelSize(50,50);
-		title.setPanelSize(50,50);
+		title = new Select(charPosition, charPosition, "↩");
+		gamePlay = new Select(0*charPosition, 2*charPosition, "GAME START");
+		select = new Select(height/4, 2*charPosition+50, "STAGE SELECT");
+		result = new Select(charPosition, 3*charPosition, "RESULT");
+		exit = new Select(height/4, 4*charPosition, "EXIT");
+		nextPage = new Select(7*charPosition,5*charPosition, "→");  //ステージセレクト右
+		previousPage = new Select(charPosition/2,5*charPosition,"←");  //ステージセレクト左
+		nextPage.setPanelSize(charPosition/2,charPosition/2);
+		previousPage.setPanelSize(charPosition/2,charPosition/2);
+		title.setPanelSize(charPosition/2,charPosition/2);
 
 		sd = loadShader("shader.frag");
 
@@ -86,7 +88,7 @@ public class Scene{
 		pg.textAlign(TOP, LEFT);
 		pg.fill(255);
 		pg.textSize(50);
-		pg.text("LIGHTS OUT", 50, 50);
+		pg.text("LIGHTS OUT", width/3, charPosition+50);
 		pg.endDraw();
 		sd.set("iTex",pg);
 		sd.set("iResolution",(float)width,(float)height);
@@ -105,13 +107,15 @@ public class Scene{
 		shader(sd);
 		rect(0, 0, width, height);
 		resetShader();
-    tint(64+255*abs(sin(t1/1000.0)));//割る数値を変更すれば変更頻度が変わる
+    tint(min(64+255*abs(sin(t1/1000.0)),255)); //割る数値を変更すれば変更頻度が変わる
 		resetShader(); 
 		select.draw();
 		exit.draw();
 	}
 
 	private void selectDraw() {
+    image(img, 0, 0, width, height);
+    tint(min(64+255*abs(sin(millis()/1000.0)),255)); //割る数値を変更すれば変更頻度が変わる
 		textAlign(TOP, LEFT);
 		fill(0);
 		text("STAGE SELECT", 50, 50);
