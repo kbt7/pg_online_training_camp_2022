@@ -103,7 +103,8 @@ public class Scene{
 		sd.set("iTime", millis() / 1000.0);
 		shader(sd);
 		rect(0, 0, width, height);
-		resetShader();  
+		resetShader();
+    tint(64+255*abs(sin(t1/1000.0)));//割る数値を変更すれば変更頻度が変わる
     image(img, 0, 0, width, height);
 		select.draw();
 		exit.draw();
