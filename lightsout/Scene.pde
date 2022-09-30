@@ -261,7 +261,7 @@ public class Scene{
 
 					if (pickStage >= RANDOMSELECT) {
 						load.saveScore(randomStage[pickStage - RANDOMSELECT].str, mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
-						scores = load.loadScore(randomStage[pickStage - RANDOMSELECT].str);
+						scores = load.loadScore(randomStage[pickStage - RANDOMSELECT].str.replaceAll("\n","_"));
 					} else {
 						load.saveScore(load.getFileName(pickStage), mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(load.getFileName(pickStage));

@@ -81,6 +81,7 @@ class TextLoad{
   }
   
   public void saveScore(String str, int count, float time) {
+    str = str.replaceAll("\n","_");
     String[] lines = null;
     try {
       lines = loadStrings("score/" + str);
@@ -133,6 +134,7 @@ class TextLoad{
     for (int i = 0; i < l; i++) {
       saveLine[i] = c[i] + " " + t[i];
     }
+    
     saveStrings("score/"+str, saveLine);
   }
   
