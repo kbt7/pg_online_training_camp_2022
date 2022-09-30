@@ -15,7 +15,7 @@ class MainGame{
   final int DEFAULTH = 5;
   
   private final int LIGHTDIF = 8;
-  private final int GOALX = 50;
+  private final int GOALX = 10;
   
   public int getCount(){
     return count;
@@ -112,7 +112,7 @@ class MainGame{
 
 	public void goalPanel() {                        ///////////////////////// 目標の形の描画
     textAlign(CENTER);
-    text("目標",w/4.0*panelSize + GOALX, height/2 - panelSize/2 * (h + 1)/2.0);
+    text("目標",w/8.0*panelSize + GOALX, height/2 - panelSize/4 * (h + 1)/2.0);
 		for (int i = 0; i < w; i ++) {
 			for (int j = 0; j < h; j ++) {
 				if (goalPanel[i][j] == 0) {
@@ -121,7 +121,7 @@ class MainGame{
 				else if (goalPanel[i][j] == 1) {
 					 fill(255);
 				}
-				rect(i * panelSize / 2 + GOALX,j * panelSize / 2 + height / 2 - h / 2.0 * panelSize / 2,panelSize / 2,panelSize / 2);
+				rect(i * panelSize / 4 + GOALX,j * panelSize / 4 + height / 2 - h / 2.0 * panelSize / 4,panelSize / 4,panelSize / 4);
 			}
 		}
 	}
