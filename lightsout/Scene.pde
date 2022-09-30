@@ -82,9 +82,9 @@ public class Scene{
 
 		pg = createGraphics(width, height);
 		pg.beginDraw();
-		pg.background(125);
+		pg.background(0);
 		pg.textAlign(TOP, LEFT);
-		pg.fill(0);
+		pg.fill(255);
 		pg.textSize(50);
 		pg.text("LIGHTS OUT", 50, 50);
 		pg.endDraw();
@@ -100,11 +100,12 @@ public class Scene{
 
 	private void titleDraw() {
 		t1 = millis();
+    image(img, 0, 0, width, height);
 		sd.set("iTime", millis() / 1000.0);
 		shader(sd);
 		rect(0, 0, width, height);
-		resetShader();  
-    image(img, 0, 0, width, height);
+		resetShader(); 
+    
 		select.draw();
 		exit.draw();
 	}

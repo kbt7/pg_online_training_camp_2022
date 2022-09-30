@@ -35,5 +35,9 @@ void main() {
     float g = texture2D(iTex, makeNoise(uv, .02)).g;
     float b = texture2D(iTex, makeNoise(uv, .04)).b;
 
-    gl_FragColor = vec4(vec3(r,g,b), 1.);
+    if (r == 0 && g == 0 && b == 0) {
+        gl_FragColor = vec4(vec3(r,g,b), 0);
+    } else {
+        gl_FragColor = vec4(vec3(r,g,b), 1.);
+    }
 }
