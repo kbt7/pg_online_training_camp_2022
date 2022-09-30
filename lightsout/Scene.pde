@@ -104,7 +104,7 @@ public class Scene{
 		shader(sd);
 		rect(0, 0, width, height);
 		resetShader();  
-    image(img, 0, 0);
+    image(img, 0, 0, width, height);
 		select.draw();
 		exit.draw();
 	}
