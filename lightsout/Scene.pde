@@ -24,12 +24,15 @@ public class Scene{
 	PGraphics pg;
 	float[][] sc;
 
+  PImage img;
+
 	private int pickStage;
 	//private boolean isPressed;
 
 	private ClearEffect clearEffect;
 
 	Scene() {
+    img = loadImage("image/title.png");
 		title = new Select(0, 100, "↩");
 		gamePlay = new Select(0, 200, "GAME START");
 		select = new Select(0, 250, "STAGE SELECT");
@@ -100,7 +103,8 @@ public class Scene{
 		sd.set("iTime", millis() / 1000.0);
 		shader(sd);
 		rect(0, 0, width, height);
-		resetShader();
+		resetShader();  
+    image(img, 0, 0);
 		select.draw();
 		exit.draw();
 	}
