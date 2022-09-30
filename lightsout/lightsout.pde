@@ -8,12 +8,12 @@ Audio resultBgm;
 
 ClickEffect clickEffect;
 
+
 void setup() {
 	size(800, 600, P2D);
 	scene = new Scene();
 	PFont font = createFont("MS Gothic",50);
 	textFont(font);
-	surface.setResizable(true);
 	
 	// Audio se = new Audio("testSE.mp3"); //この感じでseをSceneのローカル変数にすると動くがこいつらを上にずらしてグローバル変数にするとエラーが出で動かなくなる原因不明
 	clickSe = new Audio("Audio/SE/SE_Click.mp3");
@@ -25,7 +25,7 @@ void setup() {
 	titleBgm.setVolume( -20);
 	mainBgm.setVolume( -20);
 	resultBgm.setVolume( -20);
-	panelClickSe.setVolume( -20);
+	panelClickSe.setVolume( -10);
 	clickSe.setVolume( -20);
 	
 	clickEffect = new ClickEffect(10);
@@ -37,8 +37,8 @@ void draw() {
 	scene.draw(); //<>//
 	playBGM();
 	clickEffect.draw();
+	
 }
-
 
 // TITLE,
 // PLAY,

@@ -3,6 +3,9 @@ public class ClearEffect {
 	private int pSize = 10;
 	private int d;
 	private color backgroundColor = color(255,200,200);
+	private ClickEffect clickEffect;
+	private boolean lastClickFlag = false;
+	
 	public ClearEffect(int n) {
 		this.particle = new Particle[n];
 		d = width / n;
@@ -12,15 +15,31 @@ public class ClearEffect {
 			this.particle[i].setXY(d * i,(int)random( -500,0));
 			this.particle[i].setSpeed((int)random( -20,20),(int)random(7) + 20);
 		}
+		
+		this.clickEffect = new ClickEffect(50);
+		this.clickEffect.setSize(30);
+		this.clickEffect.setColor(color(255,255,150));
 	}
 	
 	public void draw() {
-		//println(this.particle.length);
+		if (!lastClickFlag) {
+			this.lastClick();
+			this.lastClickFlag = true;
+		}
 		background(this.backgroundColor);
 		for (int i = 0;i < this.particle.length;i++) {
 			this.particle[i].reverseMove();
 			this.particle[i].draw();
 		}
+		this.clickEffect.draw();
+	}
+	
+	public void lastClick() {
+		this.clickEffect.start();
+	}
+	
+	public void resetLastClickFlag() {
+		this.lastClickFlag = false;
 	}
 }
 
@@ -81,6 +100,9 @@ public class Particle{
 	public void setColor(color c) {
 		this.c = c;
 	}
+	public void setSize(int size) {
+		this.size = size;
+	}
 	
 	//getter
 	public int getvx() {
@@ -113,7 +135,7 @@ public class ClickEffect{
 			particle[i] = new Particle(pSize,pColor);
 			particle[i].setXY(mouseX,mouseY);
 			particle[i].setSpeed((int)random( -5,5),(int)random( -13));
-			particle[i].setColor(color(random(150),random(150),150));
+			particle[i].setColor(this.pColor);
 		}
 	}
 	
@@ -122,6 +144,20 @@ public class ClickEffect{
 			this.particle[i].move();
 			this.particle[i].setSpeed(this.particle[i].getvx(),this.particle[i].getvy() + 1);
 			this.particle[i].draw();
+		}
+	}
+	
+	public void setSize(int size) {
+		this.pSize = size;
+		for (int i = 0;i < this.n;i++) {
+			this.particle[i].setSize(this.pSize);
+		}
+	}
+	
+	public void setColor(color c) {
+		this.pColor = c;
+		for (int i = 0;i < this.n;i++) {
+			this.particle[i].setColor(this.pColor);
 		}
 	}
 }
