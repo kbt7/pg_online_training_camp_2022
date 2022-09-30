@@ -1,5 +1,3 @@
-MainGame mainGame;
-TextLoad load;
 PShader sd;
 
 private enum GameMode{
@@ -11,6 +9,8 @@ private enum GameMode{
 };
 
 public class Scene{
+  MainGame mainGame;
+  TextLoad load;
 	private GameMode gameMode;
 	
 	private Select title, gamePlay, select, result, exit, nextPage, previousPage;
@@ -59,9 +59,7 @@ public class Scene{
 		stage = new Stage[load.fileNames.length];
     randomStage = new Stage[2];
     randomStage[0] = new Stage(540, 200, "rand3");
-    //randomStage[0].str = "random3*3";
 		randomStage[1] = new Stage(660, 200, "rand5");
-    //randomStage[1].str = "random5*5";
 		int stagecount = 0;
 		for (int i = 0; i < load.fileNames.length; i++) {
 			stage[i] = new Stage(stagecount * 120 + 170, 400, split(load.fileNames[i], ".")[0]);
@@ -181,6 +179,10 @@ public class Scene{
 				break;
 			case SELECT:
 				if (gamePlay.onMouse()) {
+          if (mainGame != null) {
+            mainGame.clear();
+            mainGame = null;
+          }
 					if (pickStage >= RANDOMSELECT) {
             if (pickStage == RANDOMSELECT) {
 						  mainGame = new MainGame(3, 3);

@@ -168,4 +168,9 @@ class MainGame{
 			panel[x][y] ^= 1;
 		}
 	}
+
+  public void clear() {
+    panel = null;
+    goalPanel = null;
+  }
 }
