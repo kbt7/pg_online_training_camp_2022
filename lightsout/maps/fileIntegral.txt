@@ -1,8 +1,9 @@
 debug.txt
-m1.txt
-m2.txt
-m3.txt
-m4.txt
-m5.txt
-m6.txt
-m99.txt
+肩慣らし_3×3_★.txt
+欠けた隅_3×3_★.txt
+最初の難関_3×3_★.txt
+左三角_3×5_★.txt
+対称性_6×4_★.txt
+市松模様_5×5_★★.txt
+八の字_5×5_★★.txt
+肩慣らし2_3×5_★+.txt

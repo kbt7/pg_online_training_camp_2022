@@ -11,6 +11,7 @@ void init(int x, int y) {
   mapWrite = new MapWrite();
   yetInit = true;
   isPressed = true;
+  mapWrite.setMapName(x, y);
 }
 
 void setup(){
