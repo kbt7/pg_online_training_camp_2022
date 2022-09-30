@@ -119,26 +119,8 @@ public class Stage extends Select{ //セッター書くのがだるかったの�
 	}
 	
 	Stage(int x, int y, String str) {
-		// this(x, y);
-		// StringBuilder sb = new StringBuilder();  //ステージ名が長いと資格をはみ出るため、無理やり改行文字を埋め込む
-		// int charlimit = 6; //6文字ごと
-		// sb.append(str);
-		// if (str.length() > charlimit) {
-		// 	for (int i = str.length(); i >= 0; i -= charlimit) {
-		// 		if (i ==  str.length()) {continue;}
-		// 		sb.insert(i,"\n");
-		// 	}
-		// 	str = sb.toString();
-		// }
-		// this.str = str;
 		this(x,y);
-		//StringBuilder sb = new StringBuilder(); //'_'(アンダーバー)で改行する
-		//sb.append(this.str);
-		for (int i = 0;i < this.str.length();i++) {
-			if (this.str[i] ==  '_') {
-				this.str[i] = '\n';
-			}
-		}
+		this.str = str.replaceAll("_","\n");
 	}
 	
 	Stage(int x, int y, String str, color c) {

@@ -9,10 +9,10 @@ private enum GameMode{
 };
 
 public class Scene{
-  MainGame mainGame;
-  TextLoad load;
+	MainGame mainGame;
+	TextLoad load;
 	private GameMode gameMode;
-	
+
 	private Select title, gamePlay, select, result, exit, nextPage, previousPage;
 	private Stage[] stage;
 	private Stage[] randomStage;
@@ -21,14 +21,14 @@ public class Scene{
 	private int page = 1; //ステージセレクトで表示する現在のページ
 	private int t1; //ゲーム終了時のメッセージ表示用millis()
 	private String[] scores;
-  PGraphics pg;
-  float[][] sc;
-	
+	PGraphics pg;
+	float[][] sc;
+
 	private int pickStage;
 	//private boolean isPressed;
-	
+
 	private ClearEffect clearEffect;
-	
+
 	Scene() {
 		title = new Select(0, 100, "↩");
 		gamePlay = new Select(0, 200, "GAME START");
@@ -41,24 +41,24 @@ public class Scene{
 		previousPage.setPanelSize(50,50);
 		title.setPanelSize(50,50);
 
-    sd = loadShader("shader.frag");
-		
+		sd = loadShader("shader.frag");
+
 		title.setGameMode(GameMode.TITLE);
 		gamePlay.setGameMode(GameMode.PLAY);
 		select.setGameMode(GameMode.SELECT);
 		result.setGameMode(GameMode.RESULT);
 		exit.setGameMode(GameMode.END);
-		
+
 		pickStage = 0;
 
-    sc = new float[5][];
-		
+		sc = new float[5][];
+
 		this.clearEffect = new ClearEffect(100);
-		
+
 		load = new TextLoad();
 		stage = new Stage[load.fileNames.length];
-    randomStage = new Stage[2];
-    randomStage[0] = new Stage(540, 200, "ランダム_3×3");
+		randomStage = new Stage[2];
+		randomStage[0] = new Stage(540, 200, "ランダム_3×3");
 		randomStage[1] = new Stage(660, 200, "ランダム_5×5");
 		int stagecount = 0;
 		for (int i = 0; i < load.fileNames.length; i++) {
@@ -74,37 +74,37 @@ public class Scene{
 		if (pickStage >= RANDOMSELECT) {
 			randomStage[pickStage - RANDOMSELECT].select();
 		}
-		
+
 		gameMode = GameMode.TITLE;
 
-    pg = createGraphics(width, height);
-    pg.beginDraw();
-    pg.background(125);
-    pg.textAlign(TOP, LEFT);
-    pg.fill(0);
-    pg.textSize(50);
-    pg.text("LIGHTS OUT", 50, 50);
-    pg.endDraw();
-    sd.set("iTex",pg);
-    sd.set("iResolution", (float)width, (float)height);
+		pg = createGraphics(width, height);
+		pg.beginDraw();
+		pg.background(125);
+		pg.textAlign(TOP, LEFT);
+		pg.fill(0);
+		pg.textSize(50);
+		pg.text("LIGHTS OUT", 50, 50);
+		pg.endDraw();
+		sd.set("iTex",pg);
+		sd.set("iResolution",(float)width,(float)height);
 	}
-	
+
 	public void drawScene() {
 		title.draw();
 		mainGame.drawPanel();
 		if (mainGame.goalExist()) mainGame.goalPanel();
 	}
-	
+
 	private void titleDraw() {
 		t1 = millis();
-    sd.set("iTime", millis() / 1000.0);
-    shader(sd);
-    rect(0, 0, width, height);
-    resetShader();
+		sd.set("iTime", millis() / 1000.0);
+		shader(sd);
+		rect(0, 0, width, height);
+		resetShader();
 		select.draw();
 		exit.draw();
 	}
-	
+
 	private void selectDraw() {
 		textAlign(TOP, LEFT);
 		fill(0);
@@ -114,18 +114,18 @@ public class Scene{
 		// for (int i = 0; i < load.fileNames.length; i++) {
 		// 	stage[i].draw();
 		// }
-		
+
 		for (int i = 0;i < 4;i++) {
 			int drawStage = i + (page - 1) * 4;
 			if (drawStage < load.fileNames.length) {
 				stage[drawStage].draw();
 			}
 		}
-    for (int i = 0; i < randomStage.length; i++) {
-		  randomStage[i].draw();
-    }
-		
-		
+		for (int i = 0; i < randomStage.length; i++) {
+			randomStage[i].draw();
+		}
+
+
 		double pageLimit = Math.ceil((double)load.fileNames.length / stageLimit);
 		text(String.valueOf(this.page) + "/" + String.valueOf((int)pageLimit),width / 2,550); //現在のページ表示
 		//println(Math.ceil((double)load.fileNames.length / stageLimit));
@@ -142,14 +142,14 @@ public class Scene{
 			previousPage.setState(false);
 		}
 	}
-	
+
 	private void resultDraw() {
 		t1 = millis();
 		clearEffect.draw();
 		textAlign(TOP,RIGHT);
 		fill(0);
-		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" + 
-        (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位 " + "手数 " + "時間", 525, 35);
+		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" +
+		  (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位 " + "手数 " + "時間", 525, 35);
 		for (int i = 0; i < scores.length; i++) {
 			if (i == load.getRank()) {
 				fill(255, 0, 0);
@@ -157,16 +157,16 @@ public class Scene{
 				fill(0);
 			}
 			text((i + 1), 525, 150 + (i + 1) * 75);
-      text((int)sc[i][0],600, 150 + (i + 1) * 75);
-      text(sc[i][1],660, 150 + (i + 1) * 75);
+		  text((int)sc[i][0],600, 150 + (i + 1) * 75);
+		  text(sc[i][1],660, 150 + (i + 1) * 75);
 		}
-		
+
 		title.draw();
 		exit.draw();
 		select.draw();
-		
+
 	}
-	
+
 	public void operate() {
 		switch(gameMode) {
 			case TITLE:
@@ -179,20 +179,20 @@ public class Scene{
 				break;
 			case SELECT:
 				if (gamePlay.onMouse()) {
-          if (mainGame != null) {
-            mainGame.clear();
-            mainGame = null;
-            System.gc();
-          }
+			     if (mainGame != null) {
+					    mainGame.clear();
+					    mainGame = null;
+					    System.gc();
+					  }
 					if (pickStage >= RANDOMSELECT) {
-            if (pickStage == RANDOMSELECT) {
-						  mainGame = new MainGame(3, 3);
-              mainGame.randomMap(5);
-            } else {
-              mainGame = new MainGame(5, 5);
-              mainGame.randomMap(10);
-            }
-						
+					    if (pickStage == RANDOMSELECT) {
+							mainGame = new MainGame(3, 3);
+						    mainGame.randomMap(5);
+						  } else {
+						    mainGame = new MainGame(5, 5);
+						    mainGame.randomMap(10);
+						  }
+
 						mainGame.start = millis();
 					} else {
 						mainGame = new MainGame(load.mapLoad(pickStage));//本来はゲームプレイ用のシーンでインスタンス生成
@@ -208,7 +208,7 @@ public class Scene{
 					if (i < load.fileNames.length) {
 						if (stage[i].onMouse()) {
 							if (pickStage >= RANDOMSELECT) {
-                randomStage[pickStage - RANDOMSELECT].unselect();
+						      randomStage[pickStage - RANDOMSELECT].unselect();
 							} else {
 								stage[pickStage].unselect();
 							}
@@ -217,19 +217,19 @@ public class Scene{
 						}
 					}
 				}
-        for (int i = 0; i < randomStage.length; i++) {
-  				if (randomStage[i].onMouse()) {
-  					if (pickStage != RANDOMSELECT + i) {
-              if (pickStage < RANDOMSELECT) {
-  						  stage[pickStage].unselect();
-              } else {
-                randomStage[pickStage - RANDOMSELECT].unselect();
-              }
-  					}
-  					pickStage = RANDOMSELECT + i;
-  					randomStage[i].select();
-  				}
-        }
+		    for (int i = 0; i < randomStage.length; i++) {
+					if (randomStage[i].onMouse()) {
+						if (pickStage != RANDOMSELECT + i) {
+						    if (pickStage < RANDOMSELECT) {
+								stage[pickStage].unselect();
+						    } else {
+						      randomStage[pickStage - RANDOMSELECT].unselect();
+						    }
+						}
+						pickStage = RANDOMSELECT + i;
+						randomStage[i].select();
+					}
+			   }
 				if (nextPage.onMouse()) {
 					if (nextPage.getState()) {
 						this.page++;
@@ -248,7 +248,7 @@ public class Scene{
 				mainGame.selectPanel();
 				if (mainGame.stageClear()) {
 					gameMode = GameMode.RESULT;//ゲームクリア画面に移行//
-          
+
 					if (pickStage >= RANDOMSELECT) {
 						load.saveScore(randomStage[pickStage - RANDOMSELECT].str, mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(randomStage[pickStage - RANDOMSELECT].str);
@@ -256,9 +256,9 @@ public class Scene{
 						load.saveScore(load.getFileName(pickStage), mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(load.getFileName(pickStage));
 					}
-          for (int i = 0; i < scores.length; i++) {
-            sc[i] = float(split(scores[i], " "));
-          }
+			     for (int i = 0; i < scores.length; i++) {
+					    sc[i] = float(split(scores[i], " "));
+					  }
 				}
 				if (title.onMouse()) {
 					gameMode = title.getGameMode();
@@ -279,7 +279,7 @@ public class Scene{
 			break;
 		}
 	}
-	
+
 	// public void operate() {
 	// 	switch(gameMode) {
 	// 		case TITLE:
@@ -342,7 +342,7 @@ public class Scene{
 	// 		break;
 	// 	}
 	// }
-	
+
 	public void draw() {
 		strokeWeight(1);
 		switch(gameMode) {
@@ -360,6 +360,7 @@ public class Scene{
 				resultDraw();
 				break;
 			case END:
+	    fill(0);
 				text("See you next time!", width / 2, height / 2);
 				if (millis() - t1 > 1000) {
 					exit();
@@ -367,174 +368,9 @@ public class Scene{
 				break;
 		}
 	}
-	
+
 	//getter
 	public GameMode getGameMode() {
 		return this.gameMode;
-	}
-}
-
-private class Select{
-	protected int PanelWidth = 500;
-	protected int PanelHeight = 50;
-	protected color DefaultColor = color(100, 255, 100);
-	final int HighAlpha = 255;
-	final int LowAlpha = 150;
-	protected color textColor = color(255, 0, 0);
-	protected int textSize = 30;
-	private boolean state; //クリックされる項目が有効か無効か設定できる
-	
-	int x, y;
-	String str;
-	color panelColor;
-	GameMode gameMode;
-	
-	//constructor
-	Select() {}
-	Select(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.str = "test text";
-		this.panelColor = DefaultColor;
-		this.state = true;
-	}
-	
-	Select(int x, int y, String str) {
-		this(x, y);
-		this.str = str;
-	}
-	
-	Select(int x, int y, String str, color c) {
-		this(x, y, str);
-		this.panelColor = c;
-	}
-	
-	//setter
-	public void setGameMode(GameMode gameMode) {
-		this.gameMode = gameMode;
-	}
-	public void setPanelSize(int height,int width) {
-		this.PanelWidth = width;
-		this.PanelHeight = height;
-	}
-	public void setPanelColor(color c) {
-		this.DefaultColor = c;
-	}
-	public void setTextColor(color c) {
-		this.textColor = c;
-	}
-	public void setState(boolean state) {
-		this.state = state;
-	}
-	
-	//getter
-	public GameMode getGameMode() {
-		return gameMode;
-	}
-	public boolean getState() {
-		return this.state;
-	}
-	
-	public boolean onMouse() {
-		if (x <= mouseX && mouseX <= x + PanelWidth && 
-			y <= mouseY && mouseY <= y + PanelHeight) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void draw() {
-		if (this.state) {
-			if (this.onMouse()) {
-				fill(panelColor, HighAlpha);
-			}
-			else{
-				fill(panelColor, LowAlpha);
-			}
-			strokeWeight(1);
-			rect(x, y, PanelWidth, PanelHeight);
-			
-			fill(textColor);
-			textAlign(CENTER,CENTER);
-			textSize(textSize);
-			text(str, x + PanelWidth / 2, y + PanelHeight / 2);
-		}
-	}
-	
-}
-
-private class Stage extends Select{ //セッター書くのがだるかったので上のを継承させた
-	final color EdgeColor = color(255, 100, 100);
-	
-	boolean select;
-	
-	//constructor
-	Stage() {}
-	Stage(int x, int y) {
-		super();
-		this.PanelWidth = 100;
-		this.PanelHeight = 100;
-		this.textSize = 20;
-		this.textColor = color(100, 0, 0);
-		this.DefaultColor = color(100, 100, 100);
-		
-		this.x = x;
-		this.y = y;
-		this.panelColor = DefaultColor;
-		this.select = false;
-	}
-	
-	Stage(int x, int y, String str) {
-		this(x, y);
-		StringBuilder sb = new StringBuilder();  //ステージ名が長いと資格をはみ出るため、無理やり改行文字を埋め込む
-		int charlimit = 6; //6文字ごと
-		sb.append(str);
-		if (str.length() > charlimit) {
-			for (int i = str.length(); i >= 0; i -= charlimit) {
-				if (i ==  str.length()) {continue;}
-				sb.insert(i,"\n");
-			}
-			str = sb.toString();
-			
-		}
-		this.str = str;
-	}
-	
-	Stage(int x, int y, String str, color c) {
-		this(x, y, str);
-		this.panelColor = c;
-	}
-	
-	public void select() {
-		this.select = true;
-	}
-	
-	public void unselect() {
-		this.select = false;
-	}
-	
-	@Override
-	public void draw() {
-		if (this.onMouse()) {
-			fill(panelColor, HighAlpha);
-		}
-		else{
-			fill(panelColor, LowAlpha);
-		}
-		rect(x, y, PanelWidth, PanelHeight);
-		
-		strokeWeight(4);
-		stroke(EdgeColor);
-		fill(0, 0, 0, 0);
-		if (select) {
-			rect(x - 2, y - 2, PanelWidth + 2, PanelHeight + 2);
-		}
-		strokeWeight(1);
-		stroke(0);
-		
-		fill(textColor);
-		textAlign(CENTER,CENTER);
-		textSize(textSize);
-		text(str, x + PanelWidth / 2, y + PanelHeight / 2);
 	}
 }
