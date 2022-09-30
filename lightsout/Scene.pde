@@ -182,6 +182,7 @@ public class Scene{
           if (mainGame != null) {
             mainGame.clear();
             mainGame = null;
+            System.gc();
           }
 					if (pickStage >= RANDOMSELECT) {
             if (pickStage == RANDOMSELECT) {
@@ -247,6 +248,7 @@ public class Scene{
 				mainGame.selectPanel();
 				if (mainGame.stageClear()) {
 					gameMode = GameMode.RESULT;//ゲームクリア画面に移行//
+          
 					if (pickStage >= RANDOMSELECT) {
 						load.saveScore(randomStage[pickStage - RANDOMSELECT].str, mainGame.getCount(),(mainGame.finish - mainGame.start) / 1000);
 						scores = load.loadScore(randomStage[pickStage - RANDOMSELECT].str);
