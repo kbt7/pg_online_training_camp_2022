@@ -3,6 +3,11 @@ class MapWrite{
   String ansFile = "goals/m.txt";
   MapWrite(){}
   
+  void setMapName(int x, int y) {
+    file = "maps/新規マップ_" + x + "×" + y + "_★.txt";
+    ansFile = "goals/新規マップ_" + x + "×" + y + "_★.txt";
+  }
+  
   void save(int[][] map, int x, int y) {
     String[] list = new String[y + 1];
     list[0] = x + " " + y;
