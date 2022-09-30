@@ -1,10 +1,10 @@
 public class Select{
 	protected int PanelWidth = 500;
 	protected int PanelHeight = 50;
-	protected color DefaultColor = color(100, 255, 100);
+	protected color DefaultColor = color(50, 50, 50, 175);
 	final int HighAlpha = 255;
 	final int LowAlpha = 150;
-	protected color textColor = color(255, 0, 0);
+	protected color textColor = color(255, 255, 255, 255);
 	protected int textSize = 30;
 	private boolean state; //クリックされる項目が有効か無効か設定できる
 	private Audio onMouseSe;
@@ -96,7 +96,7 @@ public class Select{
 }
 
 public class Stage extends Select{ //セッター書くのがだるかったので上のを継承させた
-	final color EdgeColor = color(255, 100, 100);
+	final color EdgeColor = color(255, 255, 255);
 	
 	boolean select;
 	
@@ -108,7 +108,7 @@ public class Stage extends Select{ //セッター書くのがだるかったの�
 		this.PanelWidth = 100;
 		this.PanelHeight = 100;
 		this.textSize = 20;
-		this.textColor = color(100, 0, 0);
+		this.textColor = color(255, 255, 255, 255);
 		this.DefaultColor = color(100, 100, 100);
 		
 		this.x = x;

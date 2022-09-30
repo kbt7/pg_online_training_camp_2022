@@ -35,9 +35,9 @@ public class Scene{
 
 	Scene() {
     img = loadImage("image/title.png");
-		title = new Select(charPosition, charPosition, "↩");
+		title = new Select(charPosition/4, charPosition, "↩");
 		gamePlay = new Select(0*charPosition, 2*charPosition, "GAME START");
-		select = new Select(height/4, 2*charPosition+50, "STAGE SELECT");
+		select = new Select(height/4, (int (2.5*charPosition)), "STAGE SELECT");
 		result = new Select(charPosition, 3*charPosition, "RESULT");
 		exit = new Select(height/4, 4*charPosition, "EXIT");
 		nextPage = new Select(7*charPosition,5*charPosition, "→");  //ステージセレクト右
@@ -117,8 +117,8 @@ public class Scene{
     image(img, 0, 0, width, height);
     tint(min(64+255*abs(sin(millis()/1000.0)),255)); //割る数値を変更すれば変更頻度が変わる
 		textAlign(TOP, LEFT);
-		fill(0);
-		text("STAGE SELECT", 50, 50);
+		fill(255,255,255);
+		text("STAGE SELECT", charPosition/2, charPosition/2);
 		gamePlay.draw();
 		title.draw();
 		// for (int i = 0; i < load.fileNames.length; i++) {
@@ -159,7 +159,7 @@ public class Scene{
 		textAlign(TOP,RIGHT);
 		fill(0);
 		text("Game Clear!" + "\n" + "手数　" + mainGame.getCount() + "\n" + "経過時間　" +
-		  (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位 " + "手数 " + "時間", 525, 35);
+		  (mainGame.finish - mainGame.start) / 1000 + "\n" + "～SCORE～" + "\n" + "順位 " + "手数 " + "時間", (int (5.25*charPosition)), (int (35)));
 		for (int i = 0; i < scores.length; i++) {
 			if (i == load.getRank()) {
 				fill(255, 0, 0);

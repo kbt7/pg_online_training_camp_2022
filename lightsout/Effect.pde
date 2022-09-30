@@ -2,7 +2,7 @@ public class ClearEffect {
 	private Particle[] particle;
 	private int pSize = 10;
 	private int d;
-	private color backgroundColor = color(255,200,200);
+	private color backgroundColor = color(255,250,200);
 	private ClickEffect clickEffect;
 	private boolean lastClickFlag = false;
 	
@@ -117,7 +117,7 @@ public class ClickEffect{
 	
 	private Particle[] particle;
 	private int pSize = 8;
-	private color pColor = color(255,0,255);
+	private color pColor = color(230,230,16);
 	private int n;
 	
 	public ClickEffect(int n) {

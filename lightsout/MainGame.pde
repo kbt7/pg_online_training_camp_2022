@@ -107,7 +107,7 @@ class MainGame{
 		}
     textAlign(TOP, LEFT);
     fill(0);
-    text("手数　" + count + "　経過時間　" + (millis()-start)/1000, 50, 50);
+    text("手数　" + count + "　経過時間　" + (millis()-start)/1000, scene.charPosition/4, scene.charPosition/2);
 	}
 
 	public void goalPanel() {                        ///////////////////////// 目標の形の描画
